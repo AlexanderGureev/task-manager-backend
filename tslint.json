@@ -1,0 +1,10 @@
+{
+  "extends": ["tslint:latest", "tslint-config-prettier", "tslint-eslint-rules"],
+  "rulesDirectory": ["node_modules/tslint-eslint-rules/dist/rules"],
+  "rules": {
+    "object-literal-sort-keys": false,
+    "no-console": {
+      "severity": "warning"
+    }
+  }
+}

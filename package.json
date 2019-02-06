@@ -1,0 +1,30 @@
+{
+  "name": "node-typescript-template",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./src/index.ts",
+  "scripts": {
+    "start": "yarn lint && ts-node ./src/index.ts",
+    "start:build": "node ./dist/index.js",
+    "lint": "tslint --fix -c tslint.json 'src/**/*.ts'",
+    "start:watch": "nodemon",
+    "build": "tsc",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "prettier": "^1.16.4",
+    "ts-node": "^8.0.2",
+    "tslint": "^5.12.1",
+    "tslint-config-prettier": "^1.18.0",
+    "tslint-eslint-rules": "^5.4.0",
+    "typescript": "^3.3.1"
+  },
+  "dependencies": {
+    "@types/hapi": "^18.0.0",
+    "@types/node": "^10.12.21",
+    "hapi": "^18.1.0"
+  }
+}
