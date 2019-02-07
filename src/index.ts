@@ -1,21 +1,49 @@
 import * as Hapi from "hapi";
-import { add } from "./add";
+import * as path from "path";
+import { TodoController } from "./app/controllers/todoController";
+import { initServer } from "./app/www";
+import { config } from "./config";
+import { IConfig, IPlugin } from "./interfaces";
+import { TodosRouter } from "./routes/todos.router";
+import { database } from "./services/database";
+import { TodoService } from "./services/todos";
 
-const server = new Hapi.Server({
-  port: 3000,
-  host: "localhost"
-});
-console.log();
+const exceptionHandle = () => {
+  process.on("uncaughtException", (error: Error) => {
+    console.error(`uncaughtException ${error.message}`);
+    process.exit(1);
+  });
 
-const init = async () => {
-  await server.start();
-  console.log(`Server running at: ${server.info.uri}`);
+  process.on("unhandledRejection", (reason: any) => {
+    console.error(`unhandledRejection ${reason}`);
+    process.exit(1);
+  });
+};
+const registerPlugins = async (config: IConfig, server: Hapi.Server) => {
+  const plugins: Array<Promise<IPlugin>> = config.plugins.map(pluginName => {
+    const plugin: IPlugin = require("./plugins/logger")[pluginName];
+    console.log(`Plugin: ${plugin.name} registered.`);
+    return plugin.register(server);
+  });
+  await Promise.all(plugins);
 };
 
-process.on("unhandledRejection", err => {
-  console.log(err);
-  process.exit(1);
-});
+const initApp = async () => {
+  try {
+    const db = database();
+    const server = await initServer(config, db);
 
-console.log(add(2, 5));
-init();
+    const todoService = new TodoService(db);
+    const todoController = new TodoController(todoService);
+    const todoRouter = new TodosRouter(server, db, todoController);
+
+    server.route(todoRouter.getRoutes());
+    await registerPlugins(config, server);
+  } catch (error) {
+    console.log(error);
+    process.exit(1);
+  }
+};
+
+initApp();
+exceptionHandle();
