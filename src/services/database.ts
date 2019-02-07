@@ -1,5 +1,5 @@
 import * as mongoose from "mongoose";
-import { todosModel } from "../app/models/todos";
+import { todosModel } from "../app/models/todo.model";
 import { IConfig, IDatabase } from "../interfaces";
 
 const connect = async (config: IConfig) => {

@@ -1,10 +1,9 @@
 import * as Hapi from "hapi";
-import * as path from "path";
-import { TodoController } from "./app/controllers/todoController";
-import { initServer } from "./app/www";
+import { TodoController } from "./app/controllers/todos.controller";
 import { config } from "./config";
 import { IConfig, IPlugin } from "./interfaces";
 import { TodosRouter } from "./routes/todos.router";
+import { initServer } from "./server";
 import { database } from "./services/database";
 import { TodoService } from "./services/todos";
 

@@ -1,5 +1,5 @@
 import * as Hapi from "hapi";
-import { IConfig, IDatabase } from "../../interfaces";
+import { IConfig, IDatabase } from "./interfaces";
 
 const initServer = async (config: IConfig, db: IDatabase) => {
   try {
