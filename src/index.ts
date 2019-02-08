@@ -1,4 +1,5 @@
 import * as Hapi from "hapi";
+import * as path from "path";
 import { TodoController } from "./app/controllers/todos.controller";
 import { config } from "./config";
 import { IConfig, IPlugin } from "./interfaces";
@@ -20,9 +21,13 @@ const exceptionHandle = () => {
 };
 const registerPlugins = async (config: IConfig, server: Hapi.Server) => {
   const plugins: Array<Promise<IPlugin>> = config.plugins.map(pluginName => {
-    const plugin: IPlugin = require("./plugins/logger")[pluginName];
+    const plugin: IPlugin = require(path.join(
+      __dirname,
+      "plugins",
+      pluginName
+    ))[pluginName];
     console.log(`Plugin: ${plugin.name} registered.`);
-    return plugin.register(server);
+    return plugin.register(server, config);
   });
   await Promise.all(plugins);
 };
@@ -34,7 +39,7 @@ const initApp = async () => {
 
     const todoService = new TodoService(db);
     const todoController = new TodoController(todoService);
-    const todoRouter = new TodosRouter(server, db, todoController);
+    const todoRouter = new TodosRouter(server, todoController);
 
     server.route(todoRouter.getRoutes());
     await registerPlugins(config, server);
