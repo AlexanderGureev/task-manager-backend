@@ -1,6 +1,9 @@
 import * as mongoose from "mongoose";
 import { ITodoModel } from "../../interfaces";
 
+mongoose.set("useCreateIndex", true);
+mongoose.set("useFindAndModify", false);
+
 const todosSchema = new mongoose.Schema(
   {
     text: {

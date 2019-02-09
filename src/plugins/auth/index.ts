@@ -1,19 +1,22 @@
 import * as Hapi from "hapi";
+import { config } from "../../config";
 import { IConfig } from "../../interfaces";
 
-const people = {
-  1: {
-    id: 1,
-    name: "Jen Jones"
-  }
-};
-
 const validate = async function(decoded, request) {
-  console.log(request.redis);
-  if (!people[decoded.id]) {
+  try {
+    const session = await request.redis.getAsync(
+      `${config.SESSION_PREFIX}:${decoded.id}`
+    );
+    if (!session) {
+      return { isValid: false };
+    }
+    return {
+      isValid: true,
+      credentials: { ...decoded }
+    };
+  } catch (error) {
+    console.log(error);
     return { isValid: false };
-  } else {
-    return { isValid: true };
   }
 };
 
@@ -24,7 +27,7 @@ export const auth = {
     await server.register(require("hapi-auth-jwt2"));
 
     server.auth.strategy("jwt", "jwt", {
-      key: options.JWT_KEY,
+      key: options.JWT_SECRET,
       validate,
       verifyOptions: { algorithms: ["HS256"] }
     });

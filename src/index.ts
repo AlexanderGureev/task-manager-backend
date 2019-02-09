@@ -1,14 +1,14 @@
 import * as Hapi from "hapi";
 import * as path from "path";
-import { TodoController } from "./app/controllers/todos.controller";
+import { TodoController } from "./app/controllers/todo.controller";
 import { UserController } from "./app/controllers/user.controller";
 import { config } from "./config";
 import { IConfig, IPlugin } from "./interfaces";
-import { TodosRouter } from "./routes/todos.router";
-import { UsersRouter } from "./routes/users.router";
+import { TodoRouter } from "./routes/todo.router";
+import { UserRouter } from "./routes/user.router";
 import { initServer } from "./server";
 import { database } from "./services/database";
-import { TodoService } from "./services/todos";
+import { TodoService } from "./services/todo.service";
 import { UserService } from "./services/user.service";
 
 const exceptionHandle = () => {
@@ -22,18 +22,6 @@ const exceptionHandle = () => {
     process.exit(1);
   });
 };
-const registerPlugins = async (config: IConfig, server: Hapi.Server) => {
-  const plugins: Array<Promise<IPlugin>> = config.plugins.map(pluginName => {
-    const plugin: IPlugin = require(path.join(
-      __dirname,
-      "plugins",
-      pluginName
-    ))[pluginName];
-    console.log(`Plugin: ${plugin.name} registered.`);
-    return plugin.register(server, config);
-  });
-  await Promise.all(plugins);
-};
 
 const initApp = async () => {
   try {
@@ -42,19 +30,11 @@ const initApp = async () => {
 
     const todoService = new TodoService(db);
     const todoController = new TodoController(todoService);
-    const todoRouter = new TodosRouter(server, todoController);
+    const todoRouter = new TodoRouter(todoController);
 
     const userService = new UserService(db);
     const userController = new UserController(userService);
-    const userRouter = new UsersRouter(server, userController);
-
-    server.ext("onPreAuth", (req: any, h: Hapi.ResponseToolkit) => {
-      console.log("onPreAuth", req.headers, req.payload);
-      req.redis = "redis";
-      return h.continue;
-    });
-
-    await registerPlugins(config, server);
+    const userRouter = new UserRouter(userController);
 
     server.route(todoRouter.getRoutes());
     server.route(userRouter.getRoutes());

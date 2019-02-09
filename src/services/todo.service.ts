@@ -7,7 +7,7 @@ class TodoService implements ITodoService {
       const newTodo = new this.db.todosModel({ ...todo });
       return await newTodo.save();
     } catch (error) {
-      console.log(error);
+      throw error;
     }
   };
   public getTodos = async (limit: number): Promise<ITodo[]> => {
@@ -18,7 +18,7 @@ class TodoService implements ITodoService {
         .exec();
       return allTodos;
     } catch (error) {
-      console.log(error);
+      throw error;
     }
   };
   public getTodoById = async (id: string): Promise<ITodo> => {
@@ -26,7 +26,7 @@ class TodoService implements ITodoService {
       const todoById: ITodo = await this.db.todosModel.findById(id).exec();
       return todoById;
     } catch (error) {
-      console.log(error);
+      throw error;
     }
   };
   public updateTodoById = async (id: string, todo: ITodo): Promise<ITodo> => {
@@ -36,7 +36,7 @@ class TodoService implements ITodoService {
         .exec();
       return updatedTodo;
     } catch (error) {
-      console.log(error);
+      throw error;
     }
   };
   public deleteTodoById = async (id: string): Promise<ITodo> => {
@@ -46,7 +46,7 @@ class TodoService implements ITodoService {
         .exec();
       return deletedTodo;
     } catch (error) {
-      console.log(error);
+      throw error;
     }
   };
 }

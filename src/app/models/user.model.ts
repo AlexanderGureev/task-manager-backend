@@ -2,6 +2,9 @@ import * as bcrypt from "bcrypt";
 import * as mongoose from "mongoose";
 import { IUserModel } from "../../interfaces";
 
+mongoose.set("useCreateIndex", true);
+mongoose.set("useFindAndModify", false);
+
 const userSchema = new mongoose.Schema(
   {
     username: {

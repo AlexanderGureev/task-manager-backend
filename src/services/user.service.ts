@@ -11,7 +11,7 @@ export class UserService implements IUserService {
       newUser.password = hashPassword;
       return newUser.save();
     } catch (error) {
-      console.log(error);
+      throw error;
     }
   }
   public async login({ email, password }) {

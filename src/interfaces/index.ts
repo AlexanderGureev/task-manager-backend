@@ -50,6 +50,7 @@ export interface IUser {
 export interface IUserController {
   register: (req: Request, h: ResponseToolkit) => Promise<ResponseObject>;
   login: (req: Request, h: ResponseToolkit) => Promise<ResponseObject>;
+  logout: (req: Request, h: ResponseToolkit) => Promise<ResponseObject>;
 }
 export interface IUserService {
   register: (user: IUser) => Promise<IUser>;
@@ -74,8 +75,11 @@ export interface IConfig {
   PORT: string;
   HOST: string;
   MONGO_URI?: string;
+  REDIS_URI?: string;
+  SESSION_PREFIX: string;
+  API_VERSION: string;
   ENV: string;
-  JWT_KEY: string;
+  JWT_SECRET: string;
   plugins: string[];
 }
 export interface IRoute {

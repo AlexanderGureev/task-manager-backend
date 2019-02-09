@@ -6,7 +6,7 @@
     "no-shadowed-variable": false,
     "object-literal-sort-keys": false,
     "no-console": {
-      "severity": "warning"
+      "severity": "none"
     }
   }
 }
