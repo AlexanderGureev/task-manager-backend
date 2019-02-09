@@ -4,7 +4,7 @@ export const cookie = {
   name: "cookie",
   version: "1.0.0",
   register: async (server: Hapi.Server, options?: object) =>
-    server.state("data", {
+    server.state("cookies", {
       ttl: null,
       isSecure: false,
       isHttpOnly: true,

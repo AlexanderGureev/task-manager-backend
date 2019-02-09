@@ -12,12 +12,13 @@ export interface IPlugin {
   version: string;
   register: (server: Server, options?: object) => Promise<IPlugin>;
 }
-export interface ITodoRouter {
+export interface IRouter {
   getRoutes: () => IRoute[];
 }
 
 export interface IDatabase {
   todosModel: mongoose.Model<ITodoModel>;
+  usersModel: mongoose.Model<IUserModel>;
   connect: (config: IConfig) => void;
 }
 export interface ITodoModel extends mongoose.Document {
@@ -26,11 +27,33 @@ export interface ITodoModel extends mongoose.Document {
   status: string;
   primary: boolean;
 }
+export interface IUserModel extends mongoose.Document {
+  _id: string;
+  username: string;
+  password: string;
+  email: string;
+  hashPassword: any;
+  comparePassword: any;
+}
 export interface ITodo {
   _id: string;
   text: string;
   status: string;
   primary: boolean;
+}
+export interface IUser {
+  _id: string;
+  username: string;
+  password: string;
+  email: string;
+}
+export interface IUserController {
+  register: (req: Request, h: ResponseToolkit) => Promise<ResponseObject>;
+  login: (req: Request, h: ResponseToolkit) => Promise<ResponseObject>;
+}
+export interface IUserService {
+  register: (user: IUser) => Promise<IUser>;
+  login: (object: object) => Promise<IUser>;
 }
 
 export interface ITodoController {
@@ -52,6 +75,7 @@ export interface IConfig {
   HOST: string;
   MONGO_URI?: string;
   ENV: string;
+  JWT_KEY: string;
   plugins: string[];
 }
 export interface IRoute {

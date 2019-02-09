@@ -1,5 +1,6 @@
 import * as mongoose from "mongoose";
 import { todosModel } from "../app/models/todo.model";
+import { usersModel } from "../app/models/user.model";
 import { IConfig, IDatabase } from "../interfaces";
 
 const connect = async (config: IConfig) => {
@@ -15,6 +16,7 @@ const connect = async (config: IConfig) => {
 export const database = (): IDatabase => {
   return {
     todosModel,
+    usersModel,
     connect
   };
 };
