@@ -31,7 +31,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const Boom = require("boom");
 const JWT = require("jsonwebtoken");
 const uuid_1 = require("uuid");
-const config_1 = require(`${__dirname}/../../config`);
+const config_1 = require("../../config");
 class UserController {
   constructor(userService) {
     this.userService = userService;
