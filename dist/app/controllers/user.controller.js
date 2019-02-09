@@ -11,7 +11,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const Boom = require("boom");
 const JWT = require("jsonwebtoken");
 const uuid_1 = require("uuid");
-const config_1 = require("../../config");
+const index_1 = require("../../config/index");
 class UserController {
     constructor(userService) {
         this.userService = userService;
@@ -78,8 +78,8 @@ class UserController {
                 id: uuid_1.v4(),
                 userId: _id
             };
-            const token = JWT.sign(session, config_1.config.JWT_SECRET);
-            yield req.redis.setAsync(`${config_1.config.SESSION_PREFIX}:${session.id}`, JSON.stringify(token));
+            const token = JWT.sign(session, index_1.config.JWT_SECRET);
+            yield req.redis.setAsync(`${index_1.config.SESSION_PREFIX}:${session.id}`, JSON.stringify(token));
             return token;
         });
     }

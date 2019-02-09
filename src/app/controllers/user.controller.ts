@@ -2,7 +2,7 @@ import * as Boom from "boom";
 import { Request, ResponseToolkit } from "hapi";
 import * as JWT from "jsonwebtoken";
 import { v4 } from "uuid";
-import { config } from "../../config";
+import { config } from "../../config/index";
 import { IUser, IUserController, IUserService } from "../../interfaces";
 
 export class UserController implements IUserController {
