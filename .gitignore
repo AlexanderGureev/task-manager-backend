@@ -1,6 +1,7 @@
 node_modules
 .vscode
-config
+
 db.txt
 dist/config
 dist
+.env
