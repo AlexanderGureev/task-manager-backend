@@ -1,0 +1,1 @@
+{"version":3,"file":"index.js","sourceRoot":"","sources":["../../../src/plugins/cors/index.ts"],"names":[],"mappings":";;;;;;;;;;AAGa,QAAA,IAAI,GAAG;IAClB,IAAI,EAAE,MAAM;IACZ,OAAO,EAAE,OAAO;IAChB,QAAQ,EAAE,CAAO,MAAmB,EAAE,OAAiB,EAAE,EAAE;QACzD,MAAM,MAAM,CAAC,QAAQ,CAAC,OAAO,CAAC,WAAW,CAAC,CAAC,CAAC;IAC9C,CAAC,CAAA;CACF,CAAC"}
