@@ -8,7 +8,6 @@
     "start:build": "node ./dist/index.js",
     "lint": "tslint --fix -c tslint.json 'src/**/*.ts'",
     "start:watch": "nodemon",
-    "build": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
