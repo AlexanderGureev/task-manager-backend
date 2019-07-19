@@ -1,7 +1,7 @@
+import * as Inert from "@hapi/inert";
+import * as Vision from "@hapi/vision";
 import * as Hapi from "hapi";
 import * as HapiSwagger from "hapi-swagger";
-import * as Inert from "inert";
-import * as Vision from "vision";
 import { IConfig } from "../../interfaces";
 
 export const swagger = {
@@ -11,8 +11,6 @@ export const swagger = {
     const swaggerOptions = {
       documentationPath: "/",
       grouping: "tags",
-      sortTags: "name",
-      sortEndpoints: "ordered",
       tags: [
         {
           name: "auth",
