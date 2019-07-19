@@ -7,7 +7,7 @@ export const cookie = {
     server.state("token", {
       ttl: 365 * 24 * 60 * 60 * 1000,
       isSecure: false,
-      isHttpOnly: true,
+      isHttpOnly: false,
       encoding: "none",
       clearInvalid: false,
       strictHeader: true,

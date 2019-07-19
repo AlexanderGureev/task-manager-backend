@@ -608,6 +608,13 @@ hapi-auth-jwt2@^8.3.0:
     cookie "^0.3.1"
     jsonwebtoken "^8.1.0"
 
+hapi-cors@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/hapi-cors/-/hapi-cors-1.0.3.tgz#47db547d9d6b3ae52bbeec34b2b6cfc82c5a8892"
+  integrity sha512-45fkvy13d+Awp25OXuMj8imQSoD3x5SJ99D+P/WBEwruHArpoHdj+zMlrXOoixgo/O281/lls6rAZBnkBtNOpg==
+  dependencies:
+    joi "^7.0.1"
+
 hapi-pino@^5.4.0:
   version "5.4.0"
   resolved "https://registry.yarnpkg.com/hapi-pino/-/hapi-pino-5.4.0.tgz#7c97394a2357c98350f3c154abd9a1f0efacf73b"
@@ -680,6 +687,16 @@ heavy@6.x.x:
     boom "7.x.x"
     hoek "6.x.x"
     joi "14.x.x"
+
+hoek@3.x.x:
+  version "3.0.4"
+  resolved "https://registry.yarnpkg.com/hoek/-/hoek-3.0.4.tgz#268adff66bb6695c69b4789a88b1e0847c3f3123"
+  integrity sha1-Jorf9mu2aVxptHiaiLHghHw/MSM=
+
+hoek@4.x.x:
+  version "4.2.1"
+  resolved "https://registry.yarnpkg.com/hoek/-/hoek-4.2.1.tgz#9634502aa12c445dd5a7c5734b572bb8738aacbb"
+  integrity sha512-QLg82fGkfnJ/4iy1xZ81/9SIJiq1NGFUMGs6ParyjBZr6jW2Ufj/snDqTHixNlHdPNwN2RLVD0Pi3igeK9+JfA==
 
 hoek@5.x.x, hoek@^5.0.3:
   version "5.0.4"
@@ -772,6 +789,11 @@ isarray@~1.0.0:
   resolved "https://registry.yarnpkg.com/isarray/-/isarray-1.0.0.tgz#bb935d48582cba168c06834957a54a3e07124f11"
   integrity sha1-u5NdSFgsuhaMBoNJV6VKPgcSTxE=
 
+isemail@2.x.x:
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/isemail/-/isemail-2.2.1.tgz#0353d3d9a62951080c262c2aa0a42b8ea8e9e2a6"
+  integrity sha1-A1PT2aYpUQgMJiwqoKQrjqjp4qY=
+
 isemail@3.x.x:
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/isemail/-/isemail-3.2.0.tgz#59310a021931a9fb06bbb51e155ce0b3f236832c"
@@ -806,6 +828,16 @@ joi@^13.1.2:
     hoek "5.x.x"
     isemail "3.x.x"
     topo "3.x.x"
+
+joi@^7.0.1:
+  version "7.3.0"
+  resolved "https://registry.yarnpkg.com/joi/-/joi-7.3.0.tgz#4d9c9f181830444083665b5b6cd5b8ca6779a5e9"
+  integrity sha1-TZyfGBgwRECDZltbbNW4ymd5pek=
+  dependencies:
+    hoek "3.x.x"
+    isemail "2.x.x"
+    moment "2.x.x"
+    topo "2.x.x"
 
 js-tokens@^3.0.2:
   version "3.0.2"
@@ -996,6 +1028,11 @@ mkdirp@^0.5.0, mkdirp@^0.5.1:
   integrity sha1-MAV0OOrGz3+MR2fzhkjWaX11yQM=
   dependencies:
     minimist "0.0.8"
+
+moment@2.x.x:
+  version "2.24.0"
+  resolved "https://registry.yarnpkg.com/moment/-/moment-2.24.0.tgz#0d055d53f5052aa653c9f6eb68bb5d12bf5c2b5b"
+  integrity sha512-bV7f+6l2QigeBBZSM/6yTNq4P2fNpSWj/0e7jQcy87A8e7o2nAfP/34/2ky5Vw4B9S446EtIhodAzkFCcR4dQg==
 
 mongodb-core@3.1.11:
   version "3.1.11"
@@ -1590,6 +1627,13 @@ teamwork@3.x.x:
   version "3.0.3"
   resolved "https://registry.yarnpkg.com/teamwork/-/teamwork-3.0.3.tgz#0c08748efe00c32c1eaf1128ef7f07ba0c7cc4ea"
   integrity sha512-OCB56z+G70iA1A1OFoT+51TPzfcgN0ks75uN3yhxA+EU66WTz2BevNDK4YzMqfaL5tuAvxy4iFUn35/u8pxMaQ==
+
+topo@2.x.x:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/topo/-/topo-2.0.2.tgz#cd5615752539057c0dc0491a621c3bc6fbe1d182"
+  integrity sha1-zVYVdSU5BXwNwEkaYhw7xvvh0YI=
+  dependencies:
+    hoek "4.x.x"
 
 topo@3.x.x:
   version "3.0.3"
