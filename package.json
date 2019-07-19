@@ -29,6 +29,7 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.6.5",
     "redis": "^2.8.0",
+    "typescript": "^3.5.3",
     "uuid": "^3.3.2"
   },
   "devDependencies": {
@@ -46,8 +47,7 @@
     "ts-node": "^8.3.0",
     "tslint": "^5.18.0",
     "tslint-config-prettier": "^1.18.0",
-    "tslint-eslint-rules": "^5.4.0",
-    "typescript": "^3.5.3"
+    "tslint-eslint-rules": "^5.4.0"
   },
   "engines": {
     "node": "11.5.0"
