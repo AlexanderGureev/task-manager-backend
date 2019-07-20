@@ -1,5 +1,5 @@
 import { Request, ResponseToolkit } from "hapi";
-import { ITodo, ITodoController, ITodoService } from "../../interfaces";
+import { ITodo, ITodoController, ITodoService } from "../interfaces";
 
 export class TodoController implements ITodoController {
   constructor(public todoService: ITodoService) {}

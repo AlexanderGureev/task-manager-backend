@@ -1,5 +1,5 @@
 import * as Hapi from "hapi";
-import { IConfig } from "../../interfaces";
+import { IConfig } from "../../app/interfaces";
 
 export const cors = {
   name: "cors",
@@ -10,10 +10,10 @@ export const cors = {
       options: {
         origins: ["*"],
         allowCredentials: "true",
-        exposeHeaders: ["content-type", "content-length"],
+        exposeHeaders: ["content-type", "content-length", "set-cookie"],
         maxAge: 600,
-        methods: ["POST, GET, OPTIONS"],
-        headers: ["Accept", "Content-Type", "Authorization", "Set-Cookie"]
+        methods: ["GET, POST, PUT, PATCH, DELETE, HEAD, OPTION"],
+        headers: ["Accept", "Content-Type", "Authorization"]
       }
     });
   }

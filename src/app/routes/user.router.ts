@@ -1,5 +1,6 @@
 import * as Joi from "joi";
 import { IRoute, IRouter, IUserController } from "../interfaces";
+import { userCreatedSchema } from "../schemas";
 
 export class UserRouter implements IRouter {
   private routes: IRoute[];
@@ -59,9 +60,20 @@ export class UserRouter implements IRouter {
           tags: ["api", "auth"],
           plugins: {
             "hapi-swagger": {
+              payloadType: "form",
+              responses: {
+                201: {
+                  description: "Registration successful, user created.",
+                  schema: userCreatedSchema
+                },
+                403: {
+                  description: "Authorization Error."
+                }
+              },
               order: 1
             }
           },
+
           auth: false
         }
       },
@@ -81,9 +93,20 @@ export class UserRouter implements IRouter {
           tags: ["api", "auth"],
           plugins: {
             "hapi-swagger": {
+              payloadType: "form",
+              responses: {
+                201: {
+                  description: "Login successful.",
+                  schema: userCreatedSchema
+                },
+                403: {
+                  description: "Authorization Error."
+                }
+              },
               order: 2
             }
           },
+
           auth: false
         }
       },
@@ -97,6 +120,14 @@ export class UserRouter implements IRouter {
           tags: ["api", "auth"],
           plugins: {
             "hapi-swagger": {
+              responses: {
+                204: {
+                  description: "Logout successful."
+                },
+                403: {
+                  description: "Authorization Error."
+                }
+              },
               order: 3
             }
           }

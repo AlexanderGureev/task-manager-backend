@@ -1,8 +1,8 @@
 import { promisifyAll } from "bluebird";
 import { ResponseToolkit, Server } from "hapi";
 import * as redis from "redis";
+import { IConfig } from "../../app/interfaces";
 import { config } from "../../config";
-import { IConfig } from "../../interfaces";
 
 promisifyAll(redis.RedisClient.prototype);
 const client = redis.createClient(config.REDIS_URI);

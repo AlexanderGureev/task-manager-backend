@@ -2,7 +2,7 @@ import * as Inert from "@hapi/inert";
 import * as Vision from "@hapi/vision";
 import * as Hapi from "hapi";
 import * as HapiSwagger from "hapi-swagger";
-import { IConfig } from "../../interfaces";
+import { IConfig } from "../../app/interfaces";
 
 export const swagger = {
   name: "swagger",

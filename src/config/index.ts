@@ -1,5 +1,5 @@
 import { randomBytes } from "crypto";
-import { IConfig, IMongoConnection } from "../interfaces";
+import { IConfig, IMongoConnection } from "../app/interfaces";
 
 const mongodbConfig: IMongoConnection = {
   username: encodeURIComponent("test"),
@@ -16,9 +16,7 @@ export const config: IConfig = {
   API_VERSION: "1.0.0",
   MONGO_URI:
     process.env.MONGO_URI ||
-    `mongodb://${mongodbConfig.username}:${
-      mongodbConfig.password
-    }@localhost:27017/${mongodbConfig.database}`,
+    `mongodb://${mongodbConfig.username}:${mongodbConfig.password}@localhost:27017/${mongodbConfig.database}`,
   REDIS_URI: process.env.REDIS_URI || `redis://localhost:6379`,
   plugins: ["swagger", "logger", "cookie", "auth", "redisCache", "cors"]
 };

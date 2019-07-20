@@ -1,6 +1,6 @@
 import * as Hapi from "hapi";
+import { IConfig } from "../../app/interfaces";
 import { config } from "../../config";
-import { IConfig } from "../../interfaces";
 
 const validate = async function(decoded, request) {
   try {

@@ -1,5 +1,6 @@
 import * as Joi from "joi";
 import { IRoute, IRouter, ITodoController } from "../interfaces";
+import { listTodosSchema, todoSchema } from "../schemas";
 
 export class TodoRouter implements IRouter {
   private routes: IRoute[];
@@ -62,6 +63,21 @@ export class TodoRouter implements IRouter {
           tags: ["api", "todos"],
           plugins: {
             "hapi-swagger": {
+              responses: {
+                200: {
+                  description: "List of all todos.",
+                  schema: listTodosSchema
+                },
+                204: {
+                  description: "Todo list is empty."
+                },
+                400: {
+                  description: "Validation failed."
+                },
+                403: {
+                  description: "Authorization required."
+                }
+              },
               order: 1
             }
           }
@@ -84,6 +100,18 @@ export class TodoRouter implements IRouter {
           tags: ["api", "todos"],
           plugins: {
             "hapi-swagger": {
+              payloadType: "form",
+              responses: {
+                201: {
+                  description: "The todo has been successfully created."
+                },
+                400: {
+                  description: "Validation failed."
+                },
+                403: {
+                  description: "Authorization required."
+                }
+              },
               order: 3
             }
           }
@@ -106,6 +134,21 @@ export class TodoRouter implements IRouter {
           tags: ["api", "todos"],
           plugins: {
             "hapi-swagger": {
+              responses: {
+                200: {
+                  description: "Todo by id.",
+                  schema: todoSchema
+                },
+                400: {
+                  description: "Validation failed."
+                },
+                403: {
+                  description: "Authorization required."
+                },
+                404: {
+                  description: "Todo for this ID do not exist."
+                }
+              },
               order: 2
             }
           }
@@ -133,6 +176,22 @@ export class TodoRouter implements IRouter {
           tags: ["api", "todos"],
           plugins: {
             "hapi-swagger": {
+              payloadType: "form",
+              responses: {
+                201: {
+                  description: "Updated todo by id.",
+                  schema: todoSchema
+                },
+                400: {
+                  description: "Validation failed."
+                },
+                403: {
+                  description: "Authorization required."
+                },
+                404: {
+                  description: "Todo for this ID do not exist."
+                }
+              },
               order: 4
             }
           }
@@ -155,6 +214,21 @@ export class TodoRouter implements IRouter {
           tags: ["api", "todos"],
           plugins: {
             "hapi-swagger": {
+              responses: {
+                201: {
+                  description: "Deleted todo by id.",
+                  schema: todoSchema
+                },
+                400: {
+                  description: "Validation failed."
+                },
+                403: {
+                  description: "Authorization required."
+                },
+                404: {
+                  description: "Todo for this ID do not exist."
+                }
+              },
               order: 5
             }
           }

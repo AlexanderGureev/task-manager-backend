@@ -3,13 +3,13 @@ dotenv.config();
 
 import { TodoController } from "./app/controllers/todo.controller";
 import { UserController } from "./app/controllers/user.controller";
+import { TodoRouter } from "./app/routes/todo.router";
+import { UserRouter } from "./app/routes/user.router";
+import { database } from "./app/services/database";
+import { TodoService } from "./app/services/todo.service";
+import { UserService } from "./app/services/user.service";
 import { config } from "./config";
-import { TodoRouter } from "./routes/todo.router";
-import { UserRouter } from "./routes/user.router";
 import { initServer } from "./server";
-import { database } from "./services/database";
-import { TodoService } from "./services/todo.service";
-import { UserService } from "./services/user.service";
 
 const exceptionHandle = () => {
   process.on("uncaughtException", (error: Error) => {
