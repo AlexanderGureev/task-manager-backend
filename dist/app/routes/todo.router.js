@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const Joi = require("joi");
+const schemas_1 = require("../schemas");
 class TodoRouter {
     constructor(todoController) {
         this.todoController = todoController;
@@ -51,6 +52,21 @@ class TodoRouter {
                     tags: ["api", "todos"],
                     plugins: {
                         "hapi-swagger": {
+                            responses: {
+                                200: {
+                                    description: "List of all todos.",
+                                    schema: schemas_1.listTodosSchema
+                                },
+                                204: {
+                                    description: "Todo list is empty."
+                                },
+                                400: {
+                                    description: "Validation failed."
+                                },
+                                403: {
+                                    description: "Authorization required."
+                                }
+                            },
                             order: 1
                         }
                     }
@@ -69,6 +85,18 @@ class TodoRouter {
                     tags: ["api", "todos"],
                     plugins: {
                         "hapi-swagger": {
+                            payloadType: "form",
+                            responses: {
+                                201: {
+                                    description: "The todo has been successfully created."
+                                },
+                                400: {
+                                    description: "Validation failed."
+                                },
+                                403: {
+                                    description: "Authorization required."
+                                }
+                            },
                             order: 3
                         }
                     }
@@ -91,6 +119,21 @@ class TodoRouter {
                     tags: ["api", "todos"],
                     plugins: {
                         "hapi-swagger": {
+                            responses: {
+                                200: {
+                                    description: "Todo by id.",
+                                    schema: schemas_1.todoSchema
+                                },
+                                400: {
+                                    description: "Validation failed."
+                                },
+                                403: {
+                                    description: "Authorization required."
+                                },
+                                404: {
+                                    description: "Todo for this ID do not exist."
+                                }
+                            },
                             order: 2
                         }
                     }
@@ -114,6 +157,22 @@ class TodoRouter {
                     tags: ["api", "todos"],
                     plugins: {
                         "hapi-swagger": {
+                            payloadType: "form",
+                            responses: {
+                                201: {
+                                    description: "Updated todo by id.",
+                                    schema: schemas_1.todoSchema
+                                },
+                                400: {
+                                    description: "Validation failed."
+                                },
+                                403: {
+                                    description: "Authorization required."
+                                },
+                                404: {
+                                    description: "Todo for this ID do not exist."
+                                }
+                            },
                             order: 4
                         }
                     }
@@ -136,6 +195,21 @@ class TodoRouter {
                     tags: ["api", "todos"],
                     plugins: {
                         "hapi-swagger": {
+                            responses: {
+                                201: {
+                                    description: "Deleted todo by id.",
+                                    schema: schemas_1.todoSchema
+                                },
+                                400: {
+                                    description: "Validation failed."
+                                },
+                                403: {
+                                    description: "Authorization required."
+                                },
+                                404: {
+                                    description: "Todo for this ID do not exist."
+                                }
+                            },
                             order: 5
                         }
                     }

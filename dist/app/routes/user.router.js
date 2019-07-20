@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const Joi = require("joi");
+const schemas_1 = require("../schemas");
 class UserRouter {
     constructor(userController) {
         this.userController = userController;
@@ -44,6 +45,16 @@ class UserRouter {
                     tags: ["api", "auth"],
                     plugins: {
                         "hapi-swagger": {
+                            payloadType: "form",
+                            responses: {
+                                201: {
+                                    description: "Registration successful, user created.",
+                                    schema: schemas_1.userCreatedSchema
+                                },
+                                403: {
+                                    description: "Authorization Error."
+                                }
+                            },
                             order: 1
                         }
                     },
@@ -63,6 +74,16 @@ class UserRouter {
                     tags: ["api", "auth"],
                     plugins: {
                         "hapi-swagger": {
+                            payloadType: "form",
+                            responses: {
+                                201: {
+                                    description: "Login successful.",
+                                    schema: schemas_1.userCreatedSchema
+                                },
+                                403: {
+                                    description: "Authorization Error."
+                                }
+                            },
                             order: 2
                         }
                     },
@@ -79,6 +100,14 @@ class UserRouter {
                     tags: ["api", "auth"],
                     plugins: {
                         "hapi-swagger": {
+                            responses: {
+                                204: {
+                                    description: "Logout successful."
+                                },
+                                403: {
+                                    description: "Authorization Error."
+                                }
+                            },
                             order: 3
                         }
                     }

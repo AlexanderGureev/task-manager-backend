@@ -15,11 +15,11 @@ exports.cookie = {
         return server.state("token", {
             ttl: 365 * 24 * 60 * 60 * 1000,
             isSecure: false,
-            isHttpOnly: false,
+            isHttpOnly: true,
             encoding: "none",
-            clearInvalid: false,
-            strictHeader: true,
-            isSameSite: "Strict"
+            clearInvalid: false
+            // strictHeader: true,
+            // isSameSite: "Strict",
         });
     })
 };

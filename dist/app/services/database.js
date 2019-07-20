@@ -9,8 +9,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose = require("mongoose");
-const todo_model_1 = require("../app/models/todo.model");
-const user_model_1 = require("../app/models/user.model");
+const todo_model_1 = require("../models/todo.model");
+const user_model_1 = require("../models/user.model");
 const connect = (config) => __awaiter(this, void 0, void 0, function* () {
     try {
         yield mongoose.connect(config.MONGO_URI, { useNewUrlParser: true });

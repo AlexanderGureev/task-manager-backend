@@ -12,13 +12,13 @@ const dotenv = require("dotenv");
 dotenv.config();
 const todo_controller_1 = require("./app/controllers/todo.controller");
 const user_controller_1 = require("./app/controllers/user.controller");
+const todo_router_1 = require("./app/routes/todo.router");
+const user_router_1 = require("./app/routes/user.router");
+const database_1 = require("./app/services/database");
+const todo_service_1 = require("./app/services/todo.service");
+const user_service_1 = require("./app/services/user.service");
 const config_1 = require("./config");
-const todo_router_1 = require("./routes/todo.router");
-const user_router_1 = require("./routes/user.router");
 const server_1 = require("./server");
-const database_1 = require("./services/database");
-const todo_service_1 = require("./services/todo.service");
-const user_service_1 = require("./services/user.service");
 const exceptionHandle = () => {
     process.on("uncaughtException", (error) => {
         console.error(`uncaughtException ${error.message}`);
