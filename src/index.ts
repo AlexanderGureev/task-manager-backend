@@ -1,9 +1,9 @@
-import * as Hapi from "hapi";
-import * as path from "path";
+import * as dotenv from "dotenv";
+dotenv.config();
+
 import { TodoController } from "./app/controllers/todo.controller";
 import { UserController } from "./app/controllers/user.controller";
 import { config } from "./config";
-import { IConfig, IPlugin } from "./interfaces";
 import { TodoRouter } from "./routes/todo.router";
 import { UserRouter } from "./routes/user.router";
 import { initServer } from "./server";
