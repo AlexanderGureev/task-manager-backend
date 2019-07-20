@@ -12,7 +12,17 @@ exports.cors = {
     name: "cors",
     version: "1.0.0",
     register: (server, options) => __awaiter(this, void 0, void 0, function* () {
-        yield server.register(require("hapi-cors"));
+        yield server.register({
+            plugin: require("hapi-cors"),
+            options: {
+                origins: ["*"],
+                allowCredentials: "true",
+                exposeHeaders: ["content-type", "content-length"],
+                maxAge: 600,
+                methods: ["POST, GET, OPTIONS"],
+                headers: ["Accept", "Content-Type", "Authorization", "Set-Cookie"]
+            }
+        });
     })
 };
 //# sourceMappingURL=index.js.map

@@ -8,6 +8,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const dotenv = require("dotenv");
+dotenv.config();
 const todo_controller_1 = require("./app/controllers/todo.controller");
 const user_controller_1 = require("./app/controllers/user.controller");
 const config_1 = require("./config");
