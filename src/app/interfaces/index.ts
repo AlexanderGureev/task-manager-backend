@@ -7,6 +7,7 @@ import {
 } from "hapi";
 
 import * as mongoose from "mongoose";
+
 export interface IPlugin {
   name: string;
   version: string;
@@ -51,10 +52,12 @@ export interface IUserController {
   register: (req: Request, h: ResponseToolkit) => Promise<ResponseObject>;
   login: (req: Request, h: ResponseToolkit) => Promise<ResponseObject>;
   logout: (req: Request, h: ResponseToolkit) => Promise<ResponseObject>;
+  getUserProfile: (req: Request, h: ResponseToolkit) => Promise<ResponseObject>;
 }
 export interface IUserService {
   register: (user: IUser) => Promise<IUser>;
   login: (object: object) => Promise<IUser>;
+  getUserProfile: (object: object) => Promise<IUser>;
 }
 
 export interface ITodoController {

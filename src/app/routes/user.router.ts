@@ -132,6 +132,30 @@ export class UserRouter implements IRouter {
             }
           }
         }
+      },
+      {
+        method: "GET",
+        path: this.apiVersion + "/user",
+        options: {
+          handler: this.userController.getUserProfile.bind(this.userController),
+          description: "User profile",
+          notes: "Returns user model",
+          tags: ["api", "auth"],
+          plugins: {
+            "hapi-swagger": {
+              responses: {
+                201: {
+                  description: "Logout successful.",
+                  schema: userCreatedSchema
+                },
+                403: {
+                  description: "Authorization Error."
+                }
+              },
+              order: 3
+            }
+          }
+        }
       }
     ];
   }

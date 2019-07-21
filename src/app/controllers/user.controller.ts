@@ -50,6 +50,16 @@ export class UserController implements IUserController {
     }
   }
 
+  public async getUserProfile(req: Request, h: ResponseToolkit) {
+    try {
+      const user = await this.userService.getUserProfile(req.auth.credentials);
+      return h.response(user).code(201);
+    } catch (error) {
+      console.log(error);
+      return error;
+    }
+  }
+
   private async deleteSession(req) {
     await req.redis.delAsync(req.auth.credentials.id);
   }

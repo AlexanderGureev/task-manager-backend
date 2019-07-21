@@ -32,4 +32,18 @@ export class UserService implements IUserService {
       throw error;
     }
   }
+  public async getUserProfile({ userId }) {
+    try {
+      const user: IUserModel = await this.db.usersModel
+        .findOne({ _id: userId })
+        .exec();
+      if (!user) {
+        throw Boom.forbidden("User not found.");
+      }
+
+      return user;
+    } catch (error) {
+      throw error;
+    }
+  }
 }
