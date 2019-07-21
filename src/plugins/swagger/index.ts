@@ -1,6 +1,6 @@
+import * as Hapi from "@hapi/hapi";
 import * as Inert from "@hapi/inert";
 import * as Vision from "@hapi/vision";
-import * as Hapi from "hapi";
 import * as HapiSwagger from "hapi-swagger";
 import { IConfig } from "../../app/interfaces";
 

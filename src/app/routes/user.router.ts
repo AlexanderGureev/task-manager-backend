@@ -1,4 +1,4 @@
-import * as Joi from "joi";
+import * as Joi from "@hapi/joi";
 import { IRoute, IRouter, IUserController } from "../interfaces";
 import { userCreatedSchema } from "../schemas";
 

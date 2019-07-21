@@ -1,5 +1,5 @@
+import { ResponseToolkit, Server } from "@hapi/hapi";
 import { promisifyAll } from "bluebird";
-import { ResponseToolkit, Server } from "hapi";
 import * as redis from "redis";
 import { IConfig } from "../../app/interfaces";
 import { config } from "../../config";

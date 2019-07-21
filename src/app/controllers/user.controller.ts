@@ -1,5 +1,5 @@
-import * as Boom from "boom";
-import { Request, ResponseToolkit } from "hapi";
+import * as Boom from "@hapi/boom";
+import { Request, ResponseToolkit } from "@hapi/hapi";
 import * as JWT from "jsonwebtoken";
 import { v4 } from "uuid";
 import { config } from "../../config";
@@ -7,6 +7,7 @@ import { IUser, IUserController, IUserService } from "../interfaces";
 
 export class UserController implements IUserController {
   constructor(public userService: IUserService) {}
+
   public async register(req: any, h: ResponseToolkit) {
     try {
       const user = await this.userService.register(req.payload as IUser);

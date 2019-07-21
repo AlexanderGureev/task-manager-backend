@@ -1,4 +1,4 @@
-import { Request, ResponseToolkit } from "hapi";
+import { Request, ResponseToolkit } from "@hapi/hapi";
 import { ITodo, ITodoController, ITodoService } from "../interfaces";
 
 export class TodoController implements ITodoController {

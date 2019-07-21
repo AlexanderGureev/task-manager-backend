@@ -1,4 +1,4 @@
-import * as Boom from "boom";
+import * as Boom from "@hapi/boom";
 import { IDatabase, IUser, IUserModel, IUserService } from "../interfaces";
 
 export class UserService implements IUserService {

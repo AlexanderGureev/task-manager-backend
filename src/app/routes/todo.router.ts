@@ -1,4 +1,4 @@
-import * as Joi from "joi";
+import * as Joi from "@hapi/joi";
 import { IRoute, IRouter, ITodoController } from "../interfaces";
 import { listTodosSchema, todoSchema } from "../schemas";
 

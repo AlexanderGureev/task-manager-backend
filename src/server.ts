@@ -1,4 +1,4 @@
-import * as Hapi from "hapi";
+import * as Hapi from "@hapi/hapi";
 import * as path from "path";
 import { IConfig, IDatabase, IPlugin } from "./app/interfaces";
 

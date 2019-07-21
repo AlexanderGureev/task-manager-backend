@@ -4,7 +4,7 @@ import {
   ResponseToolkit,
   RouteOptions,
   Server
-} from "hapi";
+} from "@hapi/hapi";
 
 import * as mongoose from "mongoose";
 
