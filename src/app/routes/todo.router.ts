@@ -1,6 +1,10 @@
 import * as Joi from "@hapi/joi";
 import { IRoute, IRouter, ITodoController } from "../interfaces";
-import { listTodosSchema, todoSchema } from "../schemas";
+import {
+  listTodosByCategorySchema,
+  listTodosSchema,
+  todoSchema
+} from "../schemas";
 
 export class TodoRouter implements IRouter {
   private routes: IRoute[];
@@ -151,7 +155,7 @@ export class TodoRouter implements IRouter {
               responses: {
                 200: {
                   description: "List of all todos by category.",
-                  schema: listTodosSchema
+                  schema: listTodosByCategorySchema
                 },
                 400: {
                   description: "Validation failed."
@@ -198,7 +202,8 @@ export class TodoRouter implements IRouter {
               payloadType: "form",
               responses: {
                 201: {
-                  description: "The todo has been successfully created."
+                  description: "The todo has been successfully created.",
+                  schema: todoSchema
                 },
                 400: {
                   description: "Validation failed."

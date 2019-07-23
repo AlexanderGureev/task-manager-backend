@@ -1,6 +1,6 @@
 import * as Joi from "@hapi/joi";
 import { ICategoryController, IRoute, IRouter } from "../interfaces";
-import { categorySchema, listCategoriesSchema } from "../schemas";
+import { listCategoriesSchema, shallowCategorySchema } from "../schemas";
 
 export class CategoryRouter implements IRouter {
   private routes: IRoute[];
@@ -136,7 +136,7 @@ export class CategoryRouter implements IRouter {
               responses: {
                 200: {
                   description: "Category by id.",
-                  schema: categorySchema
+                  schema: shallowCategorySchema
                 },
                 400: {
                   description: "Validation failed."
@@ -180,7 +180,7 @@ export class CategoryRouter implements IRouter {
               responses: {
                 201: {
                   description: "Updated category by id.",
-                  schema: categorySchema
+                  schema: shallowCategorySchema
                 },
                 204: {
                   description: "No content"
@@ -219,7 +219,7 @@ export class CategoryRouter implements IRouter {
               responses: {
                 201: {
                   description: "Deleted category by id.",
-                  schema: categorySchema
+                  schema: shallowCategorySchema
                 },
                 204: {
                   description: "No content"
