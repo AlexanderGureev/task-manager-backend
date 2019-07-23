@@ -1,5 +1,6 @@
 import * as mongoose from "mongoose";
 import { IConfig, IDatabase } from "../interfaces";
+import { categoriesModel } from "../models/categories.model";
 import { todosModel } from "../models/todo.model";
 import { usersModel } from "../models/user.model";
 
@@ -17,6 +18,7 @@ export const database = (): IDatabase => {
   return {
     todosModel,
     usersModel,
+    categoriesModel,
     connect
   };
 };

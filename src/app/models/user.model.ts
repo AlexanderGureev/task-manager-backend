@@ -19,6 +19,10 @@ const userSchema = new mongoose.Schema(
       unique: true,
       type: String,
       required: true
+    },
+    categories: {
+      type: [{ type: mongoose.Schema.Types.ObjectId, ref: "categories" }],
+      default: []
     }
   },
   {

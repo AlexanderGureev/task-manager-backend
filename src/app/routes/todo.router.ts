@@ -16,6 +16,9 @@ export class TodoRouter implements IRouter {
 
   private getValidateRules(...fields) {
     const validateFields = {
+      categoryId: Joi.string()
+        .min(24)
+        .max(24),
       id: Joi.string()
         .min(24)
         .max(24),
@@ -23,23 +26,37 @@ export class TodoRouter implements IRouter {
         .min(1)
         .max(100)
         .default(10),
+      offset: Joi.number()
+        .min(0)
+        .default(0),
       text: Joi.string()
         .min(1)
         .default("text todo"),
-      primary: Joi.boolean().default(false),
+      date: Joi.date(),
+      primary: Joi.boolean(),
       status: Joi.string()
         .valid("active")
         .valid("completed")
-        .default("active")
     };
 
     return fields.reduce(
-      (acc, { name, required = false, description = "" }) => ({
-        [name]: required
-          ? validateFields[name].required().description(description || name)
-          : validateFields[name].description(description || name),
-        ...acc
-      }),
+      (acc, { name, required = false, description = "", def }) => {
+        const field = {
+          [name]: validateFields[name].description(description || name)
+        };
+
+        if (required) {
+          field[name] = field[name].required();
+        }
+        if (def) {
+          field[name] = field[name].default(def);
+        }
+
+        return {
+          ...field,
+          ...acc
+        };
+      },
       {}
     );
   }
@@ -52,10 +69,24 @@ export class TodoRouter implements IRouter {
         options: {
           handler: this.todoController.getTodos.bind(this.todoController),
           validate: {
-            query: this.getValidateRules({
-              name: "limit",
-              description: "Number of tasks"
-            })
+            query: this.getValidateRules(
+              {
+                name: "limit",
+                description: "Number of tasks"
+              },
+              {
+                name: "offset",
+                description: "Offset"
+              },
+              {
+                name: "primary",
+                description: "Primary"
+              },
+              {
+                name: "status",
+                description: "Status todo"
+              }
+            )
           },
           auth: "jwt",
           description: "Get all todos",
@@ -67,9 +98,6 @@ export class TodoRouter implements IRouter {
                 200: {
                   description: "List of all todos.",
                   schema: listTodosSchema
-                },
-                204: {
-                  description: "Todo list is empty."
                 },
                 400: {
                   description: "Validation failed."
@@ -84,15 +112,82 @@ export class TodoRouter implements IRouter {
         }
       },
       {
+        method: "GET",
+        path: this.apiVersion + "/todos/{categoryId}",
+        options: {
+          handler: this.todoController.getTodosByCategory.bind(
+            this.todoController
+          ),
+          validate: {
+            params: this.getValidateRules({
+              name: "categoryId",
+              description: "Category id"
+            }),
+            query: this.getValidateRules(
+              {
+                name: "limit",
+                description: "Number of tasks"
+              },
+              {
+                name: "offset",
+                description: "Offset"
+              },
+              {
+                name: "primary",
+                description: "Primary"
+              },
+              {
+                name: "status",
+                description: "Status todo"
+              }
+            )
+          },
+          auth: "jwt",
+          description: "Get all todos by category",
+          notes: "Returns all todos item",
+          tags: ["api", "todos"],
+          plugins: {
+            "hapi-swagger": {
+              responses: {
+                200: {
+                  description: "List of all todos by category.",
+                  schema: listTodosSchema
+                },
+                400: {
+                  description: "Validation failed."
+                },
+                403: {
+                  description: "Authorization required."
+                },
+                404: {
+                  description: "Todos for this category id do not exist."
+                }
+              },
+              order: 1
+            }
+          }
+        }
+      },
+      {
         method: "POST",
         path: this.apiVersion + "/todos",
         options: {
           handler: this.todoController.addTodo.bind(this.todoController),
           validate: {
             payload: this.getValidateRules(
-              { name: "text", required: true, description: "Task decription" },
-              { name: "status", description: "Task status" },
-              { name: "primary", description: "Task priority" }
+              {
+                name: "categoryId",
+                required: true,
+                description: "Category Id"
+              },
+              { name: "text", required: true, description: "Task description" },
+              { name: "status", description: "Task status", def: "active" },
+              { name: "primary", description: "Task priority", def: false },
+              {
+                name: "date",
+                description: "Date of creation todo",
+                def: Date.now()
+              }
             )
           },
           description: "Create a new todo",
@@ -110,6 +205,9 @@ export class TodoRouter implements IRouter {
                 },
                 403: {
                   description: "Authorization required."
+                },
+                404: {
+                  description: "Category for this ID do not exist."
                 }
               },
               order: 3
@@ -119,15 +217,22 @@ export class TodoRouter implements IRouter {
       },
       {
         method: "GET",
-        path: this.apiVersion + "/todos/{id}",
+        path: this.apiVersion + "/todos/{categoryId}/{id}",
         options: {
           handler: this.todoController.getTodoById.bind(this.todoController),
           validate: {
-            params: this.getValidateRules({
-              name: "id",
-              required: true,
-              description: "Task id"
-            })
+            params: this.getValidateRules(
+              {
+                name: "id",
+                required: true,
+                description: "Task id"
+              },
+              {
+                name: "categoryId",
+                required: true,
+                description: "Category Id"
+              }
+            )
           },
           description: "Get a todo by id",
           notes: "Returns todo by id",
@@ -156,17 +261,24 @@ export class TodoRouter implements IRouter {
       },
       {
         method: "PUT",
-        path: this.apiVersion + "/todos/{id}",
+        path: this.apiVersion + "/todos/{categoryId}/{id}",
         options: {
           handler: this.todoController.updateTodoById.bind(this.todoController),
           validate: {
-            params: this.getValidateRules({
-              name: "id",
-              required: true,
-              description: "Task id"
-            }),
+            params: this.getValidateRules(
+              {
+                name: "id",
+                required: true,
+                description: "Task id"
+              },
+              {
+                name: "categoryId",
+                required: true,
+                description: "Category Id"
+              }
+            ),
             payload: this.getValidateRules(
-              { name: "text", description: "Task decription" },
+              { name: "text", description: "Task description" },
               { name: "status", description: "Task status" },
               { name: "primary", description: "Task priority" }
             )
@@ -182,14 +294,14 @@ export class TodoRouter implements IRouter {
                   description: "Updated todo by id.",
                   schema: todoSchema
                 },
+                204: {
+                  description: "No content"
+                },
                 400: {
                   description: "Validation failed."
                 },
                 403: {
                   description: "Authorization required."
-                },
-                404: {
-                  description: "Todo for this ID do not exist."
                 }
               },
               order: 4
@@ -199,15 +311,22 @@ export class TodoRouter implements IRouter {
       },
       {
         method: "DELETE",
-        path: this.apiVersion + "/todos/{id}",
+        path: this.apiVersion + "/todos/{categoryId}/{id}",
         options: {
           handler: this.todoController.deleteTodoById.bind(this.todoController),
           validate: {
-            params: this.getValidateRules({
-              name: "id",
-              required: true,
-              description: "Task id"
-            })
+            params: this.getValidateRules(
+              {
+                name: "id",
+                required: true,
+                description: "Task id"
+              },
+              {
+                name: "categoryId",
+                required: true,
+                description: "Category Id"
+              }
+            )
           },
           description: "Delete the todo by id",
           notes: "Returns deleted todo by id",
@@ -219,14 +338,14 @@ export class TodoRouter implements IRouter {
                   description: "Deleted todo by id.",
                   schema: todoSchema
                 },
+                204: {
+                  description: "No content"
+                },
                 400: {
                   description: "Validation failed."
                 },
                 403: {
                   description: "Authorization required."
-                },
-                404: {
-                  description: "Todo for this ID do not exist."
                 }
               },
               order: 5

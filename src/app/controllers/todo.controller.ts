@@ -10,28 +10,40 @@ export class TodoController implements ITodoController {
       return h.response(todo).code(201);
     } catch (error) {
       console.log(error);
+      return error;
+    }
+  }
+  public async getTodosByCategory(req: Request, h: ResponseToolkit) {
+    try {
+      const todos = await this.todoService.getTodosByCategory(
+        req.params.categoryId,
+        req.query
+      );
+      return h.response(todos).code(200);
+    } catch (error) {
+      console.log(error);
+      return error;
     }
   }
   public async getTodos(req: Request, h: ResponseToolkit) {
     try {
-      const todos = await this.todoService.getTodos(Number(req.query.limit));
-      if (!todos.length) {
-        return h.response().code(204);
-      }
+      const todos = await this.todoService.getTodos(
+        req.query,
+        req.auth.credentials
+      );
       return h.response(todos).code(200);
     } catch (error) {
       console.log(error);
+      return error;
     }
   }
   public async getTodoById(req: Request, h: ResponseToolkit) {
     try {
       const todo = await this.todoService.getTodoById(req.params.id);
-      if (!todo) {
-        return h.response().code(204);
-      }
       return h.response(todo).code(200);
     } catch (error) {
       console.log(error);
+      return error;
     }
   }
   public async updateTodoById(req: Request, h: ResponseToolkit) {
@@ -40,9 +52,13 @@ export class TodoController implements ITodoController {
         req.params.id,
         req.payload as ITodo
       );
+      if (!updatedTodo) {
+        return h.response().code(204);
+      }
       return h.response(updatedTodo).code(200);
     } catch (error) {
       console.log(error);
+      return error;
     }
   }
   public async deleteTodoById(req: Request, h: ResponseToolkit) {
@@ -54,6 +70,7 @@ export class TodoController implements ITodoController {
       return h.response(deletedTodo).code(200);
     } catch (error) {
       console.log(error);
+      return error;
     }
   }
 }

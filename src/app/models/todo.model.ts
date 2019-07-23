@@ -6,6 +6,7 @@ mongoose.set("useFindAndModify", false);
 
 const todosSchema = new mongoose.Schema(
   {
+    categoryId: mongoose.Schema.Types.ObjectId,
     text: {
       type: String,
       required: true
@@ -17,6 +18,10 @@ const todosSchema = new mongoose.Schema(
     status: {
       type: String,
       default: "active"
+    },
+    date: {
+      type: Date,
+      default: Date.now()
     }
   },
   {

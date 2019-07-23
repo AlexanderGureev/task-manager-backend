@@ -1,53 +1,82 @@
-import { IDatabase, ITodo, ITodoService } from "../interfaces";
+import * as Boom from "@hapi/boom";
+import { Types } from "mongoose";
+
+import { ICategory, IDatabase, ITodo, ITodoService } from "../interfaces";
 
 class TodoService implements ITodoService {
   constructor(private db: IDatabase) {}
+
   public addTodo = async (todo: ITodo) => {
-    try {
-      const newTodo = new this.db.todosModel({ ...todo });
-      return await newTodo.save();
-    } catch (error) {
-      throw error;
+    const { categoryId } = todo;
+    const category = await this.db.categoriesModel.findById(categoryId).exec();
+
+    if (!category) {
+      throw Boom.notFound("Category for this ID do not exist.");
     }
+    const newTodo = new this.db.todosModel(todo);
+    category.todos.push(Types.ObjectId(newTodo._id));
+    const [createdTodo] = await Promise.all([newTodo.save(), category.save()]);
+    return createdTodo;
   };
-  public getTodos = async (limit: number): Promise<ITodo[]> => {
-    try {
-      const allTodos: ITodo[] = await this.db.todosModel
-        .find({})
-        .limit(limit)
-        .exec();
-      return allTodos;
-    } catch (error) {
-      throw error;
+
+  public getTodosByCategory = async (categoryId, query): Promise<ICategory> => {
+    const filterOptions = ["primary", "status"];
+    const filterQuery = Object.keys(query)
+      .filter(key => filterOptions.includes(key))
+      .reduce((acc, key) => ({ ...acc, [key]: { $eq: query[key] } }), {});
+
+    const todos = await this.db.categoriesModel
+      .findById(categoryId)
+      .populate("todosCountByCategory")
+      .populate({
+        path: "todos",
+        match: filterQuery,
+        options: { limit: query.limit, skip: query.offset }
+      })
+      .exec();
+
+    if (!todos) {
+      throw Boom.notFound("Todos for this category id do not exist.");
     }
+    return todos;
   };
+
+  public getTodos = async (query, { userId }): Promise<ICategory[]> => {
+    const filterOptions = ["primary", "status"];
+    const filterQuery = Object.keys(query)
+      .filter(key => filterOptions.includes(key))
+      .reduce((acc, key) => ({ ...acc, [key]: { $eq: query[key] } }), {});
+
+    const todos = await this.db.categoriesModel
+      .find({ author: userId })
+      .populate({
+        path: "todos",
+        match: filterQuery,
+        options: { limit: query.limit, skip: query.offset }
+      })
+      .exec();
+
+    return todos;
+  };
+
   public getTodoById = async (id: string): Promise<ITodo> => {
-    try {
-      const todoById: ITodo = await this.db.todosModel.findById(id).exec();
-      return todoById;
-    } catch (error) {
-      throw error;
+    const todoById: ITodo = await this.db.todosModel.findById(id).exec();
+    if (!todoById) {
+      throw Boom.notFound("Todo for this ID do not exist.");
     }
+    return todoById;
   };
   public updateTodoById = async (id: string, todo: ITodo): Promise<ITodo> => {
-    try {
-      const updatedTodo: ITodo = await this.db.todosModel
-        .findByIdAndUpdate(id, { ...todo }, { new: true })
-        .exec();
-      return updatedTodo;
-    } catch (error) {
-      throw error;
-    }
+    const updatedTodo: ITodo = await this.db.todosModel
+      .findByIdAndUpdate(id, { ...todo }, { new: true })
+      .exec();
+    return updatedTodo;
   };
   public deleteTodoById = async (id: string): Promise<ITodo> => {
-    try {
-      const deletedTodo: ITodo = await this.db.todosModel
-        .findByIdAndDelete(id)
-        .exec();
-      return deletedTodo;
-    } catch (error) {
-      throw error;
-    }
+    const deletedTodo: ITodo = await this.db.todosModel
+      .findByIdAndDelete(id)
+      .exec();
+    return deletedTodo;
   };
 }
 
