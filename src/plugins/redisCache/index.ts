@@ -1,7 +1,7 @@
 import { ResponseToolkit, Server } from "@hapi/hapi";
 import { promisifyAll } from "bluebird";
 import * as redis from "redis";
-import { IConfig } from "../../app/interfaces";
+import { IConfig } from "../../app/interfaces/common.interface";
 import { config } from "../../config";
 
 promisifyAll(redis.RedisClient.prototype);

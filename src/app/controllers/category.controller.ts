@@ -3,7 +3,7 @@ import {
   ICategory,
   ICategoryController,
   ICategoryService
-} from "../interfaces";
+} from "../interfaces/category.interface";
 
 export class CategoryController implements ICategoryController {
   constructor(public categoryService: ICategoryService) {}

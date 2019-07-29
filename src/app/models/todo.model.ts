@@ -1,5 +1,5 @@
 import * as mongoose from "mongoose";
-import { ITodoModel } from "../interfaces";
+import { ITodoModel } from "../interfaces/todo.interface";
 
 mongoose.set("useCreateIndex", true);
 mongoose.set("useFindAndModify", false);

@@ -3,7 +3,11 @@ import { Request, ResponseToolkit } from "@hapi/hapi";
 import * as JWT from "jsonwebtoken";
 import { v4 } from "uuid";
 import { config } from "../../config";
-import { IUser, IUserController, IUserService } from "../interfaces";
+import {
+  IUser,
+  IUserController,
+  IUserService
+} from "../interfaces/user.interface";
 
 export class UserController implements IUserController {
   constructor(public userService: IUserService) {}

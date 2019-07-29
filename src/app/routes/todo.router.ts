@@ -1,5 +1,6 @@
 import * as Joi from "@hapi/joi";
-import { IRoute, IRouter, ITodoController } from "../interfaces";
+import { IRoute, IRouter } from "../interfaces/common.interface";
+import { ITodoController } from "../interfaces/todo.interface";
 import {
   listTodosByCategorySchema,
   listTodosSchema,

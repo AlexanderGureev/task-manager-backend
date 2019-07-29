@@ -1,5 +1,6 @@
 import * as Joi from "@hapi/joi";
-import { ICategoryController, IRoute, IRouter } from "../interfaces";
+import { ICategoryController } from "../interfaces/category.interface";
+import { IRoute, IRouter } from "../interfaces/common.interface";
 import { listCategoriesSchema, shallowCategorySchema } from "../schemas";
 
 export class CategoryRouter implements IRouter {
@@ -100,7 +101,8 @@ export class CategoryRouter implements IRouter {
               payloadType: "form",
               responses: {
                 201: {
-                  description: "The category has been successfully created."
+                  description: "The category has been successfully created.",
+                  schema: shallowCategorySchema
                 },
                 400: {
                   description: "Validation failed."

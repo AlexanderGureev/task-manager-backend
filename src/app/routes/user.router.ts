@@ -1,5 +1,6 @@
 import * as Joi from "@hapi/joi";
-import { IRoute, IRouter, IUserController } from "../interfaces";
+import { IRoute, IRouter } from "../interfaces/common.interface";
+import { IUserController } from "../interfaces/user.interface";
 import { userCreatedSchema } from "../schemas";
 
 export class UserRouter implements IRouter {

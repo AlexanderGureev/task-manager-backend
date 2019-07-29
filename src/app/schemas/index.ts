@@ -5,7 +5,7 @@ const categoriesListIds = Joi.array()
   .label("Categories ids list");
 
 const todosListIds = Joi.array()
-  .items(Joi.number())
+  .items(Joi.string())
   .label("Todos ids list");
 
 const userCreatedSchema = Joi.object({

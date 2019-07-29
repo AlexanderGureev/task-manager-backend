@@ -1,6 +1,7 @@
 import * as Boom from "@hapi/boom";
 import { Types } from "mongoose";
-import { ICategory, ICategoryService, IDatabase } from "../interfaces";
+import { ICategory, ICategoryService } from "../interfaces/category.interface";
+import { IDatabase } from "../interfaces/common.interface";
 
 export class CategoryService implements ICategoryService {
   constructor(private db: IDatabase) {}

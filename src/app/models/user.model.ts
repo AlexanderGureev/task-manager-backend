@@ -1,6 +1,6 @@
 import * as bcrypt from "bcrypt";
 import * as mongoose from "mongoose";
-import { IUserModel } from "../interfaces";
+import { IUserModel } from "../interfaces/user.interface";
 
 mongoose.set("useCreateIndex", true);
 mongoose.set("useFindAndModify", false);

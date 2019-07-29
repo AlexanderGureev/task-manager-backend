@@ -1,7 +1,9 @@
 import * as Boom from "@hapi/boom";
 import { Types } from "mongoose";
 
-import { ICategory, IDatabase, ITodo, ITodoService } from "../interfaces";
+import { ICategory } from "../interfaces/category.interface";
+import { IDatabase } from "../interfaces/common.interface";
+import { ITodo, ITodoService } from "../interfaces/todo.interface";
 
 class TodoService implements ITodoService {
   constructor(private db: IDatabase) {}

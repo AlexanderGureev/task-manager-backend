@@ -1,5 +1,5 @@
 import * as Hapi from "@hapi/hapi";
-import { IConfig } from "../../app/interfaces";
+import { IConfig } from "../../app/interfaces/common.interface";
 import { config } from "../../config";
 
 const validate = async function(decoded, request) {

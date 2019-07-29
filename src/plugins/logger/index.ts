@@ -1,6 +1,6 @@
 import * as Hapi from "@hapi/hapi";
 import * as pino from "hapi-pino";
-import { IConfig } from "../../app/interfaces";
+import { IConfig } from "../../app/interfaces/common.interface";
 
 export const logger = {
   name: "logger",

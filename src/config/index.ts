@@ -1,5 +1,4 @@
-import { randomBytes } from "crypto";
-import { IConfig, IMongoConnection } from "../app/interfaces";
+import { IConfig, IMongoConnection } from "../app/interfaces/common.interface";
 
 const mongodbConfig: IMongoConnection = {
   username: encodeURIComponent("test"),

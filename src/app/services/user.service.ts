@@ -1,5 +1,6 @@
 import * as Boom from "@hapi/boom";
-import { IDatabase, IUser, IUserModel, IUserService } from "../interfaces";
+import { IDatabase } from "../interfaces/common.interface";
+import { IUser, IUserModel, IUserService } from "../interfaces/user.interface";
 
 export class UserService implements IUserService {
   constructor(private db: IDatabase) {}

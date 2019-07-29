@@ -1,5 +1,5 @@
 import * as mongoose from "mongoose";
-import { ICategoryModel } from "../interfaces";
+import { ICategoryModel } from "../interfaces/category.interface";
 
 mongoose.set("useCreateIndex", true);
 mongoose.set("useFindAndModify", false);

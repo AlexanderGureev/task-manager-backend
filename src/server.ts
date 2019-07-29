@@ -1,6 +1,6 @@
 import * as Hapi from "@hapi/hapi";
 import * as path from "path";
-import { IConfig, IDatabase, IPlugin } from "./app/interfaces";
+import { IConfig, IDatabase, IPlugin } from "./app/interfaces/common.interface";
 
 const registerPlugins = async (config: IConfig, server: Hapi.Server) => {
   const plugins: Array<Promise<IPlugin>> = config.plugins.map(pluginName => {
