@@ -8,13 +8,6 @@ const todosListIds = Joi.array()
   .items(Joi.string())
   .label("Todos ids list");
 
-const userCreatedSchema = Joi.object({
-  email: Joi.string(),
-  username: Joi.string(),
-  id: Joi.string(),
-  categories: categoriesListIds
-}).label("User created model");
-
 const todoSchema = Joi.object({
   id: Joi.string(),
   categoryId: Joi.string(),
@@ -54,8 +47,23 @@ const listCategoriesSchema = Joi.array()
   .items(shallowCategorySchema)
   .label("Categories list model");
 
+const userSchema = Joi.object({
+  email: Joi.string(),
+  username: Joi.string(),
+  id: Joi.string(),
+  categories: listCategoriesSchema
+}).label("User model");
+
+const userCreatedSchema = Joi.object({
+  email: Joi.string(),
+  username: Joi.string(),
+  id: Joi.string(),
+  categories: categoriesListIds
+}).label("User created model");
+
 export {
   userCreatedSchema,
+  userSchema,
   todoSchema,
   listTodosSchema,
   listTodosByCategorySchema,

@@ -12,7 +12,10 @@ export class UserService implements IUserService {
     return newUser.save();
   }
   public async login({ email, password }) {
-    const user: IUserModel = await this.db.usersModel.findOne({ email }).exec();
+    const user: IUserModel = await this.db.usersModel
+      .findOne({ email })
+      .populate({ path: "categories", select: "-todos" })
+      .exec();
     if (!user) {
       throw Boom.forbidden("User not found.");
     }
@@ -26,6 +29,7 @@ export class UserService implements IUserService {
   public async getUserProfile({ userId }) {
     const user: IUserModel = await this.db.usersModel
       .findOne({ _id: userId })
+      .populate({ path: "categories", select: "-todos" })
       .exec();
     if (!user) {
       throw Boom.forbidden("User not found.");

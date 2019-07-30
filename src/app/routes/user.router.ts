@@ -1,7 +1,7 @@
 import * as Joi from "@hapi/joi";
 import { IRoute, IRouter } from "../interfaces/common.interface";
 import { IUserController } from "../interfaces/user.interface";
-import { userCreatedSchema } from "../schemas";
+import { userCreatedSchema, userSchema } from "../schemas";
 
 export class UserRouter implements IRouter {
   private routes: IRoute[];
@@ -98,7 +98,7 @@ export class UserRouter implements IRouter {
               responses: {
                 201: {
                   description: "Login successful.",
-                  schema: userCreatedSchema
+                  schema: userSchema
                 },
                 403: {
                   description: "Authorization Error."
@@ -146,8 +146,8 @@ export class UserRouter implements IRouter {
             "hapi-swagger": {
               responses: {
                 201: {
-                  description: "Logout successful.",
-                  schema: userCreatedSchema
+                  description: "User profile.",
+                  schema: userSchema
                 },
                 403: {
                   description: "Authorization Error."
