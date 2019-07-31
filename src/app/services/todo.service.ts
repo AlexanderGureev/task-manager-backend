@@ -27,15 +27,36 @@ class TodoService implements ITodoService {
       .filter(key => filterOptions.includes(key))
       .reduce((acc, key) => ({ ...acc, [key]: { $eq: query[key] } }), {});
 
-    const todos = await this.db.categoriesModel
-      .findById(categoryId)
-      .populate("todosCountByCategory")
-      .populate({
-        path: "todos",
-        match: filterQuery,
-        options: { limit: query.limit, skip: query.offset }
-      })
-      .exec();
+    let todos;
+    let count = 0;
+
+    if (Object.keys(filterQuery).length) {
+      [todos, count] = await Promise.all([
+        this.db.categoriesModel
+          .findById(categoryId)
+          .populate({
+            path: "todos",
+            match: filterQuery,
+            options: { limit: query.limit, skip: query.offset }
+          })
+          .exec(),
+        this.db.todosModel
+          .find({ categoryId, ...filterQuery })
+          .countDocuments()
+          .exec()
+      ]);
+      todos.todosCountByCategory = count;
+    } else {
+      todos = await this.db.categoriesModel
+        .findById(categoryId)
+        .populate({
+          path: "todos",
+          match: filterQuery,
+          options: { limit: query.limit, skip: query.offset }
+        })
+        .populate("todosCountByCategory")
+        .exec();
+    }
 
     if (!todos) {
       throw Boom.notFound("Todos for this category id do not exist.");

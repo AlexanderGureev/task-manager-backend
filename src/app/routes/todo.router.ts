@@ -34,9 +34,7 @@ export class TodoRouter implements IRouter {
       offset: Joi.number()
         .min(0)
         .default(0),
-      text: Joi.string()
-        .min(1)
-        .default("text todo"),
+      text: Joi.string().min(1),
       date: Joi.date(),
       primary: Joi.boolean(),
       status: Joi.string()
