@@ -184,9 +184,6 @@ export class CategoryRouter implements IRouter {
                   description: "Updated category by id.",
                   schema: shallowCategorySchema
                 },
-                204: {
-                  description: "No content"
-                },
                 400: {
                   description: "Validation failed."
                 },

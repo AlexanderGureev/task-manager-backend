@@ -23,6 +23,10 @@ const userSchema = new mongoose.Schema(
     categories: {
       type: [{ type: mongoose.Schema.Types.ObjectId, ref: "categories" }],
       default: []
+    },
+    avatarPath: {
+      type: String,
+      default: "/upload/ava_default.png"
     }
   },
   {

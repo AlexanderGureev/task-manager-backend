@@ -2,15 +2,19 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 import { CategoryController } from "./app/controllers/category.controller";
+import { FileController } from "./app/controllers/file.controller";
 import { TodoController } from "./app/controllers/todo.controller";
 import { UserController } from "./app/controllers/user.controller";
 import { CategoryRouter } from "./app/routes/category.router";
+import { FileRouter } from "./app/routes/file.router";
 import { TodoRouter } from "./app/routes/todo.router";
 import { UserRouter } from "./app/routes/user.router";
 import { CategoryService } from "./app/services/category.service";
-import { database } from "./app/services/database";
+import { FileService } from "./app/services/file.service";
 import { TodoService } from "./app/services/todo.service";
 import { UserService } from "./app/services/user.service";
+
+import { database } from "./app/services/database";
 import { config } from "./config";
 import { initServer } from "./server";
 
@@ -43,9 +47,14 @@ const initApp = async () => {
     const categoryController = new CategoryController(categoryService);
     const categoryRouter = new CategoryRouter(categoryController);
 
+    const fileService = new FileService(config);
+    const fileController = new FileController(fileService);
+    const fileRouter = new FileRouter(fileController);
+
     server.route(todoRouter.getRoutes());
     server.route(userRouter.getRoutes());
     server.route(categoryRouter.getRoutes());
+    server.route(fileRouter.getRoutes());
   } catch (error) {
     console.log(error);
     process.exit(1);

@@ -31,10 +31,13 @@ export class UserService implements IUserService {
       .findOne({ _id: userId })
       .populate({ path: "categories", select: "-todos" })
       .exec();
-    if (!user) {
-      throw Boom.notFound("User not found.");
-    }
+    return user;
+  }
 
+  public async updateUserById(userId, body) {
+    const user: IUserModel = await this.db.usersModel
+      .findByIdAndUpdate(userId, { ...body }, { new: true })
+      .exec();
     return user;
   }
 }

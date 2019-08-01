@@ -166,7 +166,7 @@ export class TodoRouter implements IRouter {
                   description: "Todos for this category id do not exist."
                 }
               },
-              order: 1
+              order: 2
             }
           }
         }
@@ -214,7 +214,7 @@ export class TodoRouter implements IRouter {
                   description: "Category for this ID do not exist."
                 }
               },
-              order: 3
+              order: 4
             }
           }
         }
@@ -258,7 +258,7 @@ export class TodoRouter implements IRouter {
                   description: "Todo for this ID do not exist."
                 }
               },
-              order: 2
+              order: 3
             }
           }
         }
@@ -308,7 +308,7 @@ export class TodoRouter implements IRouter {
                   description: "Authorization required."
                 }
               },
-              order: 4
+              order: 5
             }
           }
         }
@@ -352,7 +352,7 @@ export class TodoRouter implements IRouter {
                   description: "Authorization required."
                 }
               },
-              order: 5
+              order: 6
             }
           }
         }

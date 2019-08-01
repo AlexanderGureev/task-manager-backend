@@ -10,6 +10,7 @@ export interface IUserModel extends mongoose.Document {
   hashPassword: any;
   comparePassword: any;
   categories: mongoose.Types.ObjectId[];
+  avatarPath: string;
 }
 
 export interface IUser {
@@ -18,16 +19,19 @@ export interface IUser {
   password: string;
   email: string;
   categories: mongoose.Types.ObjectId[];
+  avatarPath: string;
 }
 export interface IUserController {
   register: (req: Request, h: ResponseToolkit) => Promise<ResponseObject>;
   login: (req: Request, h: ResponseToolkit) => Promise<ResponseObject>;
   logout: (req: Request, h: ResponseToolkit) => Promise<ResponseObject>;
   getUserProfile: (req: Request, h: ResponseToolkit) => Promise<ResponseObject>;
+  updateUserById: (req: Request, h: ResponseToolkit) => Promise<ResponseObject>;
 }
 
 export interface IUserService {
   register: (user: IUser) => Promise<IUser>;
   login: (object: object) => Promise<IUser>;
-  getUserProfile: (credentials: object) => Promise<IUser>;
+  getUserProfile: (params: object) => Promise<IUser>;
+  updateUserById: (userId: string, body: IUser) => Promise<IUser>;
 }

@@ -1,7 +1,7 @@
 import * as Joi from "@hapi/joi";
 import { IRoute, IRouter } from "../interfaces/common.interface";
 import { IUserController } from "../interfaces/user.interface";
-import { userCreatedSchema, userSchema } from "../schemas";
+import { uploadedFileSchema, userCreatedSchema, userSchema } from "../schemas";
 
 export class UserRouter implements IRouter {
   private routes: IRoute[];
@@ -31,7 +31,8 @@ export class UserRouter implements IRouter {
         .default("test_password"),
       email: Joi.string()
         .email()
-        .default("alex@gmail.com")
+        .default("alex@gmail.com"),
+      avatarPath: Joi.string().default("/upload/ava_default.png")
     };
 
     return fields.reduce(
@@ -74,10 +75,9 @@ export class UserRouter implements IRouter {
                   description: "Authorization Error."
                 }
               },
-              order: 1
+              order: 2
             }
           },
-
           auth: false
         }
       },
@@ -107,7 +107,7 @@ export class UserRouter implements IRouter {
                   description: "Authorization Error."
                 }
               },
-              order: 2
+              order: 1
             }
           },
 
@@ -144,7 +144,7 @@ export class UserRouter implements IRouter {
           handler: this.userController.getUserProfile.bind(this.userController),
           description: "User profile",
           notes: "Returns user model",
-          tags: ["api", "auth"],
+          tags: ["api", "users"],
           validate: {
             params: this.getValidateRules({
               name: "userId",
@@ -166,7 +166,46 @@ export class UserRouter implements IRouter {
                   description: "User not found."
                 }
               },
-              order: 3
+              order: 1
+            }
+          }
+        }
+      },
+      {
+        method: "PUT",
+        path: this.apiVersion + "/users/{userId}",
+        options: {
+          handler: this.userController.updateUserById.bind(this.userController),
+          validate: {
+            params: this.getValidateRules({
+              name: "userId",
+              required: true,
+              description: "User id"
+            }),
+            payload: this.getValidateRules({
+              name: "avatarPath",
+              description: "Avatar path"
+            })
+          },
+          description: "Updates the user profile",
+          notes: "Returns updated user profile",
+          tags: ["api", "users"],
+          plugins: {
+            "hapi-swagger": {
+              payloadType: "form",
+              responses: {
+                201: {
+                  description: "Updated user profile.",
+                  schema: userSchema
+                },
+                400: {
+                  description: "Validation failed."
+                },
+                403: {
+                  description: "Authorization required."
+                }
+              },
+              order: 2
             }
           }
         }

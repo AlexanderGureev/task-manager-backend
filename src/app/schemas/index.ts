@@ -51,15 +51,27 @@ const userSchema = Joi.object({
   email: Joi.string(),
   username: Joi.string(),
   id: Joi.string(),
-  categories: listCategoriesSchema
+  categories: listCategoriesSchema,
+  avatarPath: Joi.string()
 }).label("User model");
 
 const userCreatedSchema = Joi.object({
   email: Joi.string(),
   username: Joi.string(),
   id: Joi.string(),
-  categories: categoriesListIds
+  categories: categoriesListIds,
+  avatarPath: Joi.string()
 }).label("User created model");
+
+const uploadedFileSchema = Joi.object({
+  originalFilename: Joi.string(),
+  filename: Joi.string(),
+  path: Joi.string()
+}).label("Uploaded file model");
+
+const removedFileSchema = Joi.object({
+  filename: Joi.string()
+}).label("Removed file model");
 
 export {
   userCreatedSchema,
@@ -69,5 +81,7 @@ export {
   listTodosByCategorySchema,
   deepCategorySchema,
   shallowCategorySchema,
-  listCategoriesSchema
+  listCategoriesSchema,
+  uploadedFileSchema,
+  removedFileSchema
 };

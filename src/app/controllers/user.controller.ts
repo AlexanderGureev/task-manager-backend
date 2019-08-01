@@ -12,7 +12,7 @@ import {
 export class UserController implements IUserController {
   constructor(public userService: IUserService) {}
 
-  public async register(req: any, h: ResponseToolkit) {
+  public async register(req: Request, h: ResponseToolkit) {
     try {
       const user = await this.userService.register(req.payload as IUser);
       const token = await this.createSession(req, user);
@@ -58,7 +58,26 @@ export class UserController implements IUserController {
   public async getUserProfile(req: Request, h: ResponseToolkit) {
     try {
       const user = await this.userService.getUserProfile(req.params);
+      if (!user) {
+        return h.response().code(204);
+      }
       return h.response(user).code(201);
+    } catch (error) {
+      console.log(error);
+      return error;
+    }
+  }
+
+  public async updateUserById(req: Request, h: ResponseToolkit) {
+    try {
+      const user = await this.userService.updateUserById(
+        req.params.userId,
+        req.payload as IUser
+      );
+      if (!user) {
+        return h.response().code(204);
+      }
+      return h.response(user).code(200);
     } catch (error) {
       console.log(error);
       return error;

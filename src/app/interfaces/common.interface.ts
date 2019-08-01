@@ -14,7 +14,8 @@ export interface IPlugin {
 export interface IRoute {
   method: string;
   path: string;
-  options: RouteOptions;
+  options?: RouteOptions;
+  handler?: object;
 }
 
 export interface IRouter {
@@ -38,6 +39,7 @@ export interface IConfig {
   ENV: string;
   JWT_SECRET: string;
   plugins: string[];
+  PUBLIC_DIR: string;
 }
 
 export interface IMongoConnection {

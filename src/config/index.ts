@@ -1,3 +1,4 @@
+import * as path from "path";
 import { IConfig, IMongoConnection } from "../app/interfaces/common.interface";
 
 const mongodbConfig: IMongoConnection = {
@@ -17,5 +18,6 @@ export const config: IConfig = {
     process.env.MONGO_URI ||
     `mongodb://${mongodbConfig.username}:${mongodbConfig.password}@localhost:27017/${mongodbConfig.database}`,
   REDIS_URI: process.env.REDIS_URI || `redis://localhost:6379`,
-  plugins: ["swagger", "logger", "cookie", "auth", "redisCache", "cors"]
+  plugins: ["swagger", "logger", "cookie", "auth", "redisCache", "cors"],
+  PUBLIC_DIR: path.join(__dirname, "..", "upload")
 };

@@ -11,7 +11,12 @@ export const swagger = {
     const swaggerOptions = {
       documentationPath: "/",
       grouping: "tags",
+      sortEndpoints: "ordered",
       tags: [
+        {
+          name: "users",
+          description: "editing user information"
+        },
         {
           name: "auth",
           description: "authentication and authorization"
@@ -19,6 +24,14 @@ export const swagger = {
         {
           name: "todos",
           description: "actions on todos"
+        },
+        {
+          name: "files",
+          description: "upload and delete files"
+        },
+        {
+          name: "categories",
+          description: "user category management"
         }
       ],
       info: {
