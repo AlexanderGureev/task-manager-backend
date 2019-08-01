@@ -139,7 +139,7 @@ export class UserRouter implements IRouter {
       },
       {
         method: "GET",
-        path: this.apiVersion + "/users/{userId}",
+        path: this.apiVersion + "/users/{userId?}",
         options: {
           handler: this.userController.getUserProfile.bind(this.userController),
           description: "User profile",
@@ -148,7 +148,6 @@ export class UserRouter implements IRouter {
           validate: {
             params: this.getValidateRules({
               name: "userId",
-              required: true,
               description: "User id"
             })
           },
@@ -158,6 +157,9 @@ export class UserRouter implements IRouter {
                 201: {
                   description: "User profile.",
                   schema: userSchema
+                },
+                400: {
+                  description: "Validation failed."
                 },
                 403: {
                   description: "Authorization Error."

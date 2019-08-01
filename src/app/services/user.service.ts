@@ -26,11 +26,14 @@ export class UserService implements IUserService {
 
     return user;
   }
-  public async getUserProfile({ userId }) {
+  public async getUserProfile(userId) {
     const user: IUserModel = await this.db.usersModel
       .findOne({ _id: userId })
       .populate({ path: "categories", select: "-todos" })
       .exec();
+    if (!user) {
+      throw Boom.notFound("User not found.");
+    }
     return user;
   }
 

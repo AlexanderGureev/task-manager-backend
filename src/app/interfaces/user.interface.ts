@@ -32,6 +32,6 @@ export interface IUserController {
 export interface IUserService {
   register: (user: IUser) => Promise<IUser>;
   login: (object: object) => Promise<IUser>;
-  getUserProfile: (params: object) => Promise<IUser>;
+  getUserProfile: (userId: string) => Promise<IUser>;
   updateUserById: (userId: string, body: IUser) => Promise<IUser>;
 }
