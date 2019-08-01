@@ -1,6 +1,6 @@
 import * as mongoose from "mongoose";
 import { IConfig, IDatabase } from "../interfaces/common.interface";
-import { categoriesModel } from "../models/categories.model";
+import { categoriesModel } from "../models/category.model";
 import { todosModel } from "../models/todo.model";
 import { usersModel } from "../models/user.model";
 

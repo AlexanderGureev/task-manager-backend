@@ -17,6 +17,9 @@ export class UserRouter implements IRouter {
 
   private getValidateRules(...fields) {
     const validateFields = {
+      userId: Joi.string()
+        .min(24)
+        .max(24),
       username: Joi.string()
         .min(3)
         .max(20)
@@ -136,12 +139,19 @@ export class UserRouter implements IRouter {
       },
       {
         method: "GET",
-        path: this.apiVersion + "/user",
+        path: this.apiVersion + "/users/{userId}",
         options: {
           handler: this.userController.getUserProfile.bind(this.userController),
           description: "User profile",
           notes: "Returns user model",
           tags: ["api", "auth"],
+          validate: {
+            params: this.getValidateRules({
+              name: "userId",
+              required: true,
+              description: "User id"
+            })
+          },
           plugins: {
             "hapi-swagger": {
               responses: {
@@ -151,6 +161,9 @@ export class UserRouter implements IRouter {
                 },
                 403: {
                   description: "Authorization Error."
+                },
+                404: {
+                  description: "User not found."
                 }
               },
               order: 3

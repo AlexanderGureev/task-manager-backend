@@ -32,7 +32,7 @@ export class UserService implements IUserService {
       .populate({ path: "categories", select: "-todos" })
       .exec();
     if (!user) {
-      throw Boom.forbidden("User not found.");
+      throw Boom.notFound("User not found.");
     }
 
     return user;

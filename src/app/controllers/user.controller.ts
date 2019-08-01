@@ -57,7 +57,7 @@ export class UserController implements IUserController {
 
   public async getUserProfile(req: Request, h: ResponseToolkit) {
     try {
-      const user = await this.userService.getUserProfile(req.auth.credentials);
+      const user = await this.userService.getUserProfile(req.params);
       return h.response(user).code(201);
     } catch (error) {
       console.log(error);
