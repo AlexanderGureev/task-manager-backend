@@ -73,6 +73,10 @@ const removedFileSchema = Joi.object({
   filename: Joi.string()
 }).label("Removed file model");
 
+const updatedUserProfileSchema = Joi.object({
+  avatarPath: Joi.string()
+}).label("Updated user profile model");
+
 export {
   userCreatedSchema,
   userSchema,
@@ -83,5 +87,6 @@ export {
   shallowCategorySchema,
   listCategoriesSchema,
   uploadedFileSchema,
-  removedFileSchema
+  removedFileSchema,
+  updatedUserProfileSchema
 };

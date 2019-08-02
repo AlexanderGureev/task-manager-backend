@@ -1,7 +1,11 @@
 import * as Joi from "@hapi/joi";
 import { IRoute, IRouter } from "../interfaces/common.interface";
 import { IUserController } from "../interfaces/user.interface";
-import { uploadedFileSchema, userCreatedSchema, userSchema } from "../schemas";
+import {
+  updatedUserProfileSchema,
+  userCreatedSchema,
+  userSchema
+} from "../schemas";
 
 export class UserRouter implements IRouter {
   private routes: IRoute[];
@@ -174,7 +178,7 @@ export class UserRouter implements IRouter {
         }
       },
       {
-        method: "PUT",
+        method: "PATCH",
         path: this.apiVersion + "/users/{userId}",
         options: {
           handler: this.userController.updateUserById.bind(this.userController),
@@ -198,7 +202,7 @@ export class UserRouter implements IRouter {
               responses: {
                 201: {
                   description: "Updated user profile.",
-                  schema: userSchema
+                  schema: updatedUserProfileSchema
                 },
                 400: {
                   description: "Validation failed."

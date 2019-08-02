@@ -48,6 +48,19 @@ export class CategoryService implements ICategoryService {
     const deletedCategory = await this.db.categoriesModel
       .findByIdAndDelete(id)
       .exec();
+
+    const user = await this.db.usersModel
+      .findById(deletedCategory.author)
+      .exec();
+    user.categories = user.categories.filter(
+      categoryId => id !== categoryId.toString()
+    );
+
+    const [deletedTodosByCategory, savedUser] = await Promise.all([
+      this.db.todosModel.deleteMany({ categoryId: id }).exec(),
+      user.save()
+    ]);
+
     return deletedCategory;
   }
 }

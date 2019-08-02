@@ -264,7 +264,7 @@ export class TodoRouter implements IRouter {
         }
       },
       {
-        method: "PUT",
+        method: "PATCH",
         path: this.apiVersion + "/todos/{categoryId}/{id}",
         options: {
           handler: this.todoController.updateTodoById.bind(this.todoController),

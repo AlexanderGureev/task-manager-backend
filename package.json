@@ -51,8 +51,5 @@
     "tslint-config-prettier": "^1.18.0",
     "tslint-eslint-rules": "^5.4.0",
     "typescript": "^3.5.3"
-  },
-  "engines": {
-    "node": "11.5.0"
   }
 }

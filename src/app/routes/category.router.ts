@@ -156,7 +156,7 @@ export class CategoryRouter implements IRouter {
         }
       },
       {
-        method: "PUT",
+        method: "PATCH",
         path: this.apiVersion + "/categories/{id}",
         options: {
           handler: this.categoryController.updateCategoryById.bind(
