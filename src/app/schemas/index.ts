@@ -21,6 +21,7 @@ const shallowCategorySchema = Joi.object({
   id: Joi.string(),
   name: Joi.string(),
   author: Joi.string(),
+  color: Joi.string(),
   todos: todosListIds
 }).label("Shallow category model");
 
@@ -28,6 +29,7 @@ const deepCategorySchema = Joi.object({
   id: Joi.string(),
   name: Joi.string(),
   author: Joi.string(),
+  color: Joi.string(),
   todos: Joi.array().items(todoSchema)
 }).label("Deep category model");
 
@@ -39,6 +41,7 @@ const listTodosByCategorySchema = Joi.object({
   id: Joi.string(),
   name: Joi.string(),
   author: Joi.string(),
+  color: Joi.string(),
   todos: Joi.array().items(todoSchema),
   todosCountByCategory: Joi.number()
 }).label("Todo list by category model");

@@ -14,6 +14,9 @@ const categoriesSchema = new mongoose.Schema(
     },
     todos: {
       type: [{ type: mongoose.Schema.Types.ObjectId, ref: "todos" }]
+    },
+    color: {
+      type: String
     }
   },
   {

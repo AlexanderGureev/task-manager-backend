@@ -20,9 +20,8 @@ export class CategoryRouter implements IRouter {
       id: Joi.string()
         .min(24)
         .max(24),
-      name: Joi.string()
-        .min(1)
-        .default("name category")
+      name: Joi.string().min(1),
+      color: Joi.string()
     };
 
     return fields.reduce(
@@ -168,10 +167,16 @@ export class CategoryRouter implements IRouter {
               required: true,
               description: "Category id"
             }),
-            payload: this.getValidateRules({
-              name: "name",
-              description: "Category name"
-            })
+            payload: this.getValidateRules(
+              {
+                name: "name",
+                description: "Category name"
+              },
+              {
+                name: "color",
+                description: "Category color"
+              }
+            )
           },
           description: "Updates the category by id",
           notes: "Returns updated category by id",

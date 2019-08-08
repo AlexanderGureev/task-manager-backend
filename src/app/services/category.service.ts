@@ -2,6 +2,7 @@ import * as Boom from "@hapi/boom";
 import { Types } from "mongoose";
 import { ICategory, ICategoryService } from "../interfaces/category.interface";
 import { IDatabase } from "../interfaces/common.interface";
+import { getCategoryColor } from "../libs/colors";
 
 export class CategoryService implements ICategoryService {
   constructor(private db: IDatabase) {}
@@ -10,7 +11,10 @@ export class CategoryService implements ICategoryService {
     { userId },
     category: ICategory
   ): Promise<ICategory> {
-    const newCategory = new this.db.categoriesModel(category);
+    const newCategory = new this.db.categoriesModel({
+      ...category,
+      color: getCategoryColor()
+    });
     const user = await this.db.usersModel.findById(userId).exec();
 
     newCategory.author = Types.ObjectId(user._id);

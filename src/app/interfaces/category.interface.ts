@@ -5,6 +5,7 @@ export interface ICategoryModel extends mongoose.Document {
   _id: string;
   name: string;
   author: mongoose.Types.ObjectId;
+  color: string;
   todos: mongoose.Types.ObjectId[];
   todosCountByCategory?: number;
 }
@@ -12,6 +13,7 @@ export interface ICategory {
   _id: string;
   name: string;
   author: mongoose.Types.ObjectId;
+  color: string;
   todos: mongoose.Types.ObjectId[];
   todosCountByCategory?: number;
 }
