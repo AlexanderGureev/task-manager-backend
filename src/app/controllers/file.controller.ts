@@ -7,7 +7,6 @@ export class FileController implements IFileController {
   public async uploadFile(req: Request, h: ResponseToolkit) {
     try {
       const file = await this.fileService.saveFile(req.payload);
-
       return h.response(file).code(201);
     } catch (error) {
       console.log(error);
@@ -22,7 +21,7 @@ export class FileController implements IFileController {
       if (!deletedFile) {
         return h.response().code(204);
       }
-      return h.response(deletedFile).code(201);
+      return h.response(deletedFile).code(200);
     } catch (error) {
       console.log(error);
       return error;

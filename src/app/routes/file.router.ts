@@ -93,7 +93,7 @@ export class FileRouter implements IRouter {
           plugins: {
             "hapi-swagger": {
               responses: {
-                201: {
+                200: {
                   description: "Removed file name",
                   schema: removedFileSchema
                 },

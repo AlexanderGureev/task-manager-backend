@@ -78,7 +78,7 @@ export class UserController implements IUserController {
       if (!user) {
         return h.response().code(204);
       }
-      return h.response(user).code(201);
+      return h.response(user).code(200);
     } catch (error) {
       console.log(error);
       return error;

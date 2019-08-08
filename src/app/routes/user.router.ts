@@ -200,9 +200,12 @@ export class UserRouter implements IRouter {
             "hapi-swagger": {
               payloadType: "form",
               responses: {
-                201: {
+                200: {
                   description: "Updated user profile.",
                   schema: updatedUserProfileSchema
+                },
+                204: {
+                  description: "No content"
                 },
                 400: {
                   description: "Validation failed."

@@ -180,9 +180,12 @@ export class CategoryRouter implements IRouter {
             "hapi-swagger": {
               payloadType: "form",
               responses: {
-                201: {
+                200: {
                   description: "Updated category by id.",
                   schema: shallowCategorySchema
+                },
+                204: {
+                  description: "No content"
                 },
                 400: {
                   description: "Validation failed."
@@ -216,7 +219,7 @@ export class CategoryRouter implements IRouter {
           plugins: {
             "hapi-swagger": {
               responses: {
-                201: {
+                200: {
                   description: "Deleted category by id.",
                   schema: shallowCategorySchema
                 },
