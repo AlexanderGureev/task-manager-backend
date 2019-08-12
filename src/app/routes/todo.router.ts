@@ -338,7 +338,7 @@ export class TodoRouter implements IRouter {
           plugins: {
             "hapi-swagger": {
               responses: {
-                201: {
+                200: {
                   description: "Deleted todo by id.",
                   schema: todoSchema
                 },
