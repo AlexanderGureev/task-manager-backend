@@ -43,6 +43,10 @@ export interface ITodoController {
   getTodoById: (req: Request, h: ResponseToolkit) => Promise<ResponseObject>;
   updateTodoById: (req: Request, h: ResponseToolkit) => Promise<ResponseObject>;
   deleteTodoById: (req: Request, h: ResponseToolkit) => Promise<ResponseObject>;
+  updatePositionTodosByCategory: (
+    req: Request,
+    h: ResponseToolkit
+  ) => Promise<ResponseObject>;
 }
 
 export interface ITodoService {
@@ -55,4 +59,8 @@ export interface ITodoService {
   getTodoById: (id: string) => Promise<ITodo>;
   updateTodoById: (id: string, todo: ITodo) => Promise<ITodo>;
   deleteTodoById: (id: string) => Promise<ITodo>;
+  updatePositionTodosByCategory: (
+    categoryId: string,
+    todos: string[]
+  ) => Promise<mongoose.Types.ObjectId[]>;
 }

@@ -85,6 +85,7 @@ export {
   userSchema,
   todoSchema,
   listTodosSchema,
+  todosListIds,
   listTodosByCategorySchema,
   deepCategorySchema,
   shallowCategorySchema,

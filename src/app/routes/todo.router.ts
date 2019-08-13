@@ -4,7 +4,8 @@ import { ITodoController } from "../interfaces/todo.interface";
 import {
   listTodosByCategorySchema,
   listTodosSchema,
-  todoSchema
+  todoSchema,
+  todosListIds
 } from "../schemas";
 
 export class TodoRouter implements IRouter {
@@ -172,6 +173,46 @@ export class TodoRouter implements IRouter {
         }
       },
       {
+        method: "PUT",
+        path: this.apiVersion + "/todos/{categoryId}",
+        options: {
+          handler: this.todoController.updatePositionTodosByCategory.bind(
+            this.todoController
+          ),
+          validate: {
+            params: this.getValidateRules({
+              name: "categoryId",
+              description: "Category id"
+            }),
+            payload: todosListIds
+          },
+          auth: "jwt",
+          description: "Update tasks positioning in a category",
+          notes: "Array of tasks with updated positioning",
+          tags: ["api", "todos"],
+          plugins: {
+            "hapi-swagger": {
+              responses: {
+                200: {
+                  description: "Array of tasks with updated positioning.",
+                  schema: todosListIds
+                },
+                204: {
+                  description: "No content"
+                },
+                400: {
+                  description: "Validation failed."
+                },
+                403: {
+                  description: "Authorization required."
+                }
+              },
+              order: 2
+            }
+          }
+        }
+      },
+      {
         method: "POST",
         path: this.apiVersion + "/todos",
         options: {
@@ -294,7 +335,7 @@ export class TodoRouter implements IRouter {
             "hapi-swagger": {
               payloadType: "form",
               responses: {
-                201: {
+                200: {
                   description: "Updated todo by id.",
                   schema: todoSchema
                 },

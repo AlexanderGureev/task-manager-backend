@@ -77,4 +77,19 @@ export class TodoController implements ITodoController {
       return error;
     }
   }
+  public async updatePositionTodosByCategory(req: Request, h: ResponseToolkit) {
+    try {
+      const updatedTodos = await this.todoService.updatePositionTodosByCategory(
+        req.params.categoryId,
+        req.payload as any
+      );
+      if (!updatedTodos) {
+        return h.response().code(204);
+      }
+      return h.response(updatedTodos).code(200);
+    } catch (error) {
+      console.log(error);
+      return error;
+    }
+  }
 }

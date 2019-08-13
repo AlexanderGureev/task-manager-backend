@@ -36,8 +36,12 @@ class TodoService implements ITodoService {
           .findById(categoryId)
           .populate({
             path: "todos",
-            match: filterQuery,
-            options: { limit: query.limit, skip: query.offset }
+            match: filterQuery
+          })
+          .select({
+            todos: {
+              $slice: [query.offset, query.limit]
+            }
           })
           .exec(),
         this.db.todosModel
@@ -49,12 +53,13 @@ class TodoService implements ITodoService {
     } else {
       todos = await this.db.categoriesModel
         .findById(categoryId)
-        .populate({
-          path: "todos",
-          match: filterQuery,
-          options: { limit: query.limit, skip: query.offset }
-        })
+        .populate("todos")
         .populate("todosCountByCategory")
+        .select({
+          todos: {
+            $slice: [query.offset, query.limit]
+          }
+        })
         .exec();
     }
 
@@ -100,6 +105,22 @@ class TodoService implements ITodoService {
       .findByIdAndDelete(id)
       .exec();
     return deletedTodo;
+  };
+
+  public updatePositionTodosByCategory = async (
+    categoryId,
+    todos
+  ): Promise<Types.ObjectId[]> => {
+    const categoryById = await this.db.categoriesModel
+      .findById(categoryId)
+      .exec();
+    const convertedIdsToObjectId = todos.map(Types.ObjectId);
+    categoryById.todos = convertedIdsToObjectId.concat(
+      categoryById.todos.filter((_, i) => i > todos.length - 1)
+    );
+
+    const { todos: updatedTodosIds } = await categoryById.save();
+    return updatedTodosIds;
   };
 }
 
