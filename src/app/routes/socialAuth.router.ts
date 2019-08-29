@@ -1,8 +1,8 @@
 import * as Joi from "@hapi/joi";
+import { join } from "path";
 import { IRoute, IRouter } from "../interfaces/common.interface";
 import { ISocialAuthController } from "../interfaces/socialAuth.interface";
 import { userSchema } from "../schemas";
-
 export class SocialAuthRouter implements IRouter {
   private routes: IRoute[];
   private apiVersion: string = "/v1";

@@ -19,6 +19,7 @@ import { SocialAuthRouter } from "./app/routes/socialAuth.router";
 import { SocialAuthService } from "./app/services/socialAuthService";
 import { TokenService } from "./app/services/token.service";
 
+import { AuthService } from "./app/services/authService";
 import { database } from "./app/services/database";
 import { config } from "./config";
 import { initServer } from "./server";
@@ -40,12 +41,15 @@ const initApp = async () => {
     const db = database();
     const server = await initServer(config, db);
 
+    const authService = new AuthService(config);
+    const tokenService = new TokenService(config);
+
     const todoService = new TodoService(db);
     const todoController = new TodoController(todoService);
     const todoRouter = new TodoRouter(todoController);
 
     const userService = new UserService(db);
-    const userController = new UserController(userService);
+    const userController = new UserController(userService, authService);
     const userRouter = new UserRouter(userController);
 
     const categoryService = new CategoryService(db);
@@ -56,11 +60,11 @@ const initApp = async () => {
     const fileController = new FileController(fileService);
     const fileRouter = new FileRouter(fileController);
 
-    const tokenService = new TokenService(db, config);
     const socialAuthService = new SocialAuthService(db);
     const socialAuthController = new SocialAuthController(
       tokenService,
-      socialAuthService
+      socialAuthService,
+      authService
     );
     const socialAuthRouter = new SocialAuthRouter(socialAuthController);
 

@@ -1,8 +1,6 @@
 import * as Boom from "@hapi/boom";
 import { Request, ResponseToolkit } from "@hapi/hapi";
-import * as JWT from "jsonwebtoken";
-import { v4 } from "uuid";
-import { config } from "../../config";
+import { IAuthService } from "../interfaces/auth.interface";
 import {
   ISocialAuthController,
   ISocialAuthPayload,
@@ -12,8 +10,9 @@ import { ITokenService } from "../interfaces/token.interface";
 
 export class SocialAuthController implements ISocialAuthController {
   constructor(
-    public tokenService: ITokenService,
-    public socialAuthService: ISocialAuthService
+    private readonly tokenService: ITokenService,
+    private readonly socialAuthService: ISocialAuthService,
+    private readonly authService: IAuthService
   ) {}
 
   public async registerOrLogin(req: Request, h: ResponseToolkit) {
@@ -29,7 +28,7 @@ export class SocialAuthController implements ISocialAuthController {
         provider
       );
 
-      const sessionToken = await this.createSession(req, user);
+      const sessionToken = await this.authService.createSession(req, user);
 
       return h
         .response(user)
@@ -42,19 +41,5 @@ export class SocialAuthController implements ISocialAuthController {
       }
       return err || error;
     }
-  }
-
-  private async createSession(req, { username, _id }) {
-    const session = {
-      username,
-      id: v4(),
-      userId: _id
-    };
-    const token = JWT.sign(session, config.JWT_SECRET);
-    await req.redis.setAsync(
-      `${config.SESSION_PREFIX}:${session.id}`,
-      JSON.stringify(token)
-    );
-    return token;
   }
 }

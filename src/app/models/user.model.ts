@@ -21,8 +21,7 @@ const userSchema = new mongoose.Schema(
     },
     email: {
       unique: true,
-      type: String,
-      required: true
+      type: String
     },
     categories: {
       type: [{ type: mongoose.Schema.Types.ObjectId, ref: "categories" }],

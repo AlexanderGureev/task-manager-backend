@@ -45,6 +45,7 @@ export class CategoryController implements ICategoryController {
   }
   public async updateCategoryById(req: Request, h: ResponseToolkit) {
     try {
+      console.log(req.params.id, req.payload as ICategory);
       const updatedCategory = await this.categoryService.updateCategoryById(
         req.params.id,
         req.payload as ICategory

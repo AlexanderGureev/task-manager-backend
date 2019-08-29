@@ -6,9 +6,21 @@ import { IToken } from "../interfaces/token.interface";
 import { IUser, IUserModel, Providers } from "../interfaces/user.interface";
 
 export class SocialAuthService implements ISocialAuthService {
-  private readonly SOCIAL_API_URL = {
-    [Providers.google]: "https://www.googleapis.com/oauth2/v3/userinfo"
+  private readonly API_CONFIG = {
+    [Providers.google]: {
+      url: "https://www.googleapis.com/oauth2/v3/userinfo",
+      getProfile: this.getUserProfileGoogle
+    },
+    [Providers.vk]: {
+      url: "https://api.vk.com/method/users.get",
+      getProfile: this.getUserProfileVk
+    },
+    [Providers.facebook]: {
+      url: "https://graph.facebook.com/v4.0/me",
+      getProfile: this.getUserProfileFacebook
+    }
   };
+
   constructor(private readonly db: IDatabase) {}
   public async registerOrLogin(
     token: IToken,
@@ -16,16 +28,14 @@ export class SocialAuthService implements ISocialAuthService {
   ): Promise<IUser> {
     try {
       const parsedProvider = Providers[provider];
-
-      const { username, avatarPath, email } = await this.getUserProfile(
-        token.access_token,
-        this.SOCIAL_API_URL[parsedProvider]
-      );
+      const { url, getProfile } = this.API_CONFIG[parsedProvider];
+      const { username, avatarPath, email } = await getProfile(token, url);
 
       const user: IUserModel = await this.db.usersModel
         .findOne({ email })
         .populate({ path: "categories", select: "-todos" })
         .exec();
+
       if (user && user.provider === parsedProvider) {
         return user;
       }
@@ -43,20 +53,58 @@ export class SocialAuthService implements ISocialAuthService {
       throw error;
     }
   }
-
-  private async getUserProfile(accessToken, url) {
+  private async getUserProfileFacebook(token, url) {
     const { data, status } = await axios({
       method: "GET",
       url,
       params: {
-        access_token: accessToken
+        access_token: token.access_token,
+        fields:
+          "first_name, last_name, name, email, picture.width(150).height(150)"
+      }
+    });
+    if (status !== 200) {
+      throw Boom.forbidden("Authorization data is not valid");
+    }
+    return {
+      username: data.name,
+      avatarPath: data.picture.data.url,
+      email: data.email || ""
+    };
+  }
+  private async getUserProfileGoogle(token, url) {
+    const { data, status } = await axios({
+      method: "GET",
+      url,
+      params: {
+        access_token: token.access_token
       }
     });
 
     if (status !== 200) {
       throw Boom.forbidden("Authorization data is not valid");
     }
-    const { name: username, picture: avatarPath, email } = data;
-    return { username, avatarPath, email };
+    return { username: data.name, avatarPath: data.picture, email: data.email };
+  }
+  private async getUserProfileVk(token, url) {
+    const { data, status } = await axios({
+      method: "GET",
+      url,
+      params: {
+        access_token: token.access_token,
+        fields: "photo_200",
+        v: "5.101"
+      }
+    });
+    if (status !== 200) {
+      throw Boom.forbidden("Authorization data is not valid");
+    }
+
+    const [{ first_name, last_name, photo_200: avatarPath }] = data.response;
+    return {
+      username: `${first_name} ${last_name}`,
+      avatarPath,
+      email: token.email
+    };
   }
 }

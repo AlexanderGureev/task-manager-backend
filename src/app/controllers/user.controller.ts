@@ -1,8 +1,6 @@
 import * as Boom from "@hapi/boom";
 import { Request, ResponseToolkit } from "@hapi/hapi";
-import * as JWT from "jsonwebtoken";
-import { v4 } from "uuid";
-import { config } from "../../config";
+import { IAuthService } from "../interfaces/auth.interface";
 import {
   IUser,
   IUserController,
@@ -10,12 +8,15 @@ import {
 } from "../interfaces/user.interface";
 
 export class UserController implements IUserController {
-  constructor(public userService: IUserService) {}
+  constructor(
+    private readonly userService: IUserService,
+    private readonly authService: IAuthService
+  ) {}
 
   public async register(req: Request, h: ResponseToolkit) {
     try {
       const user = await this.userService.register(req.payload as IUser);
-      const token = await this.createSession(req, user);
+      const token = await this.authService.createSession(req, user);
 
       return h
         .response(user)
@@ -32,7 +33,7 @@ export class UserController implements IUserController {
   public async login(req: Request, h: ResponseToolkit) {
     try {
       const user = await this.userService.login(req.payload as object);
-      const token = await this.createSession(req, user);
+      const token = await this.authService.createSession(req, user);
       return h
         .response(user)
         .code(201)
@@ -44,7 +45,7 @@ export class UserController implements IUserController {
   }
   public async logout(req: Request, h: ResponseToolkit) {
     try {
-      await this.deleteSession(req);
+      await this.authService.deleteSession(req);
       return h
         .response()
         .unstate("token")
@@ -83,22 +84,5 @@ export class UserController implements IUserController {
       console.log(error);
       return error;
     }
-  }
-
-  private async deleteSession(req) {
-    await req.redis.delAsync(req.auth.credentials.id);
-  }
-  private async createSession(req, { username, _id }) {
-    const session = {
-      username,
-      id: v4(),
-      userId: _id
-    };
-    const token = JWT.sign(session, config.JWT_SECRET);
-    await req.redis.setAsync(
-      `${config.SESSION_PREFIX}:${session.id}`,
-      JSON.stringify(token)
-    );
-    return token;
   }
 }

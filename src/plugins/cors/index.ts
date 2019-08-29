@@ -9,7 +9,8 @@ export const cors = {
       plugin: require("hapi-cors"),
       options: {
         origins: ["*"],
-        allowCredentials: "true"
+        allowCredentials: "true",
+        methods: ["POST, GET, PATCH, PUT, OPTIONS, DELETE"]
       }
     });
   }
