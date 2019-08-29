@@ -36,7 +36,7 @@ export class SocialAuthRouter implements IRouter {
     this.routes = [
       {
         method: "POST",
-        path: this.apiVersion + "/oauth",
+        path: this.apiVersion + "/oauth/login",
         options: {
           handler: this.socialAuthController.registerOrLogin.bind(
             this.socialAuthController

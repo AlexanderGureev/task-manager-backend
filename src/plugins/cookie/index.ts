@@ -10,10 +10,10 @@ export const cookie = {
       isSecure: false,
       isHttpOnly: true,
       password: config.COOKIE_SECRET,
-
-      // encoding: "none",
-      // clearInvalid: false
-      strictHeader: true
-      // isSameSite: false
+      encoding: "none",
+      clearInvalid: false,
+      strictHeader: true,
+      isSameSite: false,
+      path: "/"
     })
 };
