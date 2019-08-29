@@ -3,6 +3,7 @@ import { RouteOptions, Server } from "@hapi/hapi";
 import * as mongoose from "mongoose";
 import { ICategoryModel } from "./category.interface";
 import { ITodoModel } from "./todo.interface";
+import { ITokenModel } from "./token.interface";
 import { IUserModel } from "./user.interface";
 
 export interface IPlugin {
@@ -25,10 +26,16 @@ export interface IRouter {
 export interface IDatabase {
   todosModel: mongoose.Model<ITodoModel>;
   usersModel: mongoose.Model<IUserModel>;
+  tokenModel: mongoose.Model<ITokenModel>;
   categoriesModel: mongoose.Model<ICategoryModel>;
   connect: (config: IConfig) => void;
 }
 
+interface IOAuthData {
+  CLIENT_ID: string;
+  CLIENT_SECRET: string;
+  REDIRECT_URI: string;
+}
 export interface IConfig {
   PORT: string;
   HOST: string;
@@ -38,8 +45,14 @@ export interface IConfig {
   API_VERSION: string;
   ENV: string;
   JWT_SECRET: string;
+  COOKIE_SECRET: string;
   plugins: string[];
   PUBLIC_DIR: string;
+  SOCIAL_AUTH: {
+    GOOGLE: IOAuthData;
+    VK: IOAuthData;
+    FACEBOOK: IOAuthData;
+  };
 }
 
 export interface IMongoConnection {

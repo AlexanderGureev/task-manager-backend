@@ -2,8 +2,15 @@ import { Request, ResponseObject, ResponseToolkit } from "@hapi/hapi";
 
 import * as mongoose from "mongoose";
 
+export enum Providers {
+  local = "LOCAL",
+  google = "GOOGLE",
+  facebook = "FACEBOOK",
+  vk = "VK"
+}
 export interface IUserModel extends mongoose.Document {
   _id: string;
+  provider: Providers;
   username: string;
   password: string;
   email: string;
@@ -15,6 +22,7 @@ export interface IUserModel extends mongoose.Document {
 
 export interface IUser {
   _id: string;
+  provider: Providers;
   username: string;
   password: string;
   email: string;

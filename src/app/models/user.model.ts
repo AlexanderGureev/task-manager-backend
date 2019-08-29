@@ -1,19 +1,23 @@
 import * as bcrypt from "bcrypt";
 import * as mongoose from "mongoose";
-import { IUserModel } from "../interfaces/user.interface";
+import { IUserModel, Providers } from "../interfaces/user.interface";
 
 mongoose.set("useCreateIndex", true);
 mongoose.set("useFindAndModify", false);
 
 const userSchema = new mongoose.Schema(
   {
+    provider: {
+      type: String,
+      required: true,
+      default: Providers.local
+    },
     username: {
       type: String,
       required: true
     },
     password: {
-      type: String,
-      required: true
+      type: String
     },
     email: {
       unique: true,
@@ -35,6 +39,7 @@ const userSchema = new mongoose.Schema(
         delete ret.__v;
         delete ret._id;
         delete ret.password;
+        delete ret.provider;
         return { ...ret, id: doc._id };
       }
     }

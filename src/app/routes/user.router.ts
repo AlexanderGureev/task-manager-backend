@@ -97,7 +97,7 @@ export class UserRouter implements IRouter {
             )
           },
           description: "User Authorization",
-          notes: "Returns a new user and cookie with token",
+          notes: "Returns a user and cookie with token",
           tags: ["api", "auth"],
           plugins: {
             "hapi-swagger": {
@@ -114,7 +114,6 @@ export class UserRouter implements IRouter {
               order: 1
             }
           },
-
           auth: false
         }
       },

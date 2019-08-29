@@ -2,6 +2,7 @@ import * as mongoose from "mongoose";
 import { IConfig, IDatabase } from "../interfaces/common.interface";
 import { categoriesModel } from "../models/category.model";
 import { todosModel } from "../models/todo.model";
+import { tokenModel } from "../models/token.model";
 import { usersModel } from "../models/user.model";
 
 const connect = async (config: IConfig) => {
@@ -19,6 +20,7 @@ export const database = (): IDatabase => {
     todosModel,
     usersModel,
     categoriesModel,
+    tokenModel,
     connect
   };
 };

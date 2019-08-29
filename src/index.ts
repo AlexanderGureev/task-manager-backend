@@ -14,6 +14,11 @@ import { FileService } from "./app/services/file.service";
 import { TodoService } from "./app/services/todo.service";
 import { UserService } from "./app/services/user.service";
 
+import { SocialAuthController } from "./app/controllers/socialAuth.controller";
+import { SocialAuthRouter } from "./app/routes/socialAuth.router";
+import { SocialAuthService } from "./app/services/socialAuthService";
+import { TokenService } from "./app/services/token.service";
+
 import { database } from "./app/services/database";
 import { config } from "./config";
 import { initServer } from "./server";
@@ -51,10 +56,19 @@ const initApp = async () => {
     const fileController = new FileController(fileService);
     const fileRouter = new FileRouter(fileController);
 
+    const tokenService = new TokenService(db, config);
+    const socialAuthService = new SocialAuthService(db);
+    const socialAuthController = new SocialAuthController(
+      tokenService,
+      socialAuthService
+    );
+    const socialAuthRouter = new SocialAuthRouter(socialAuthController);
+
     server.route(todoRouter.getRoutes());
     server.route(userRouter.getRoutes());
     server.route(categoryRouter.getRoutes());
     server.route(fileRouter.getRoutes());
+    server.route(socialAuthRouter.getRoutes());
   } catch (error) {
     console.log(error);
     process.exit(1);

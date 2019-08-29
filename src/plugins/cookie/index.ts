@@ -1,4 +1,5 @@
 import * as Hapi from "@hapi/hapi";
+import { config } from "../../config";
 
 export const cookie = {
   name: "cookie",
@@ -8,9 +9,11 @@ export const cookie = {
       ttl: 365 * 24 * 60 * 60 * 1000,
       isSecure: false,
       isHttpOnly: true,
-      encoding: "none",
-      clearInvalid: false
-      // strictHeader: true,
-      // isSameSite: "Strict",
+      password: config.COOKIE_SECRET,
+
+      // encoding: "none",
+      // clearInvalid: false
+      strictHeader: true
+      // isSameSite: false
     })
 };

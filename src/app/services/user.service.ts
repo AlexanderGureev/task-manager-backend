@@ -6,7 +6,7 @@ export class UserService implements IUserService {
   constructor(private db: IDatabase) {}
 
   public async register(user: IUser) {
-    const newUser = await new this.db.usersModel(user);
+    const newUser = new this.db.usersModel(user);
     const hashPassword = await newUser.hashPassword(user.password);
     newUser.password = hashPassword;
     return newUser.save();
