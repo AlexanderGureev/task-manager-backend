@@ -633,6 +633,11 @@ args@^5.0.0:
     leven "2.1.0"
     mri "1.1.4"
 
+array-move@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/array-move/-/array-move-2.1.0.tgz#b4e9fc8d6a580bc97dcad408e0539c61b4b7ed7e"
+  integrity sha512-BXEIud+F7/ech2HcSfo+6bpgSCRlNnVTqQhGKdMov9iJkHq+vu9IP9qRXDpZvQpc1WWpDLiEfjs6Lfvvac+fDA==
+
 async@2.6.2:
   version "2.6.2"
   resolved "https://registry.yarnpkg.com/async/-/async-2.6.2.tgz#18330ea7e6e313887f5d2f2a904bac6fe4dd5381"

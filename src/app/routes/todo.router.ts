@@ -5,7 +5,8 @@ import {
   listTodosByCategorySchema,
   listTodosSchema,
   todoSchema,
-  todosListIds
+  todosListIds,
+  updateListPositionSchema
 } from "../schemas";
 
 export class TodoRouter implements IRouter {
@@ -184,7 +185,7 @@ export class TodoRouter implements IRouter {
               name: "categoryId",
               description: "Category id"
             }),
-            payload: todosListIds
+            payload: updateListPositionSchema
           },
           auth: "jwt",
           description: "Update tasks positioning in a category",

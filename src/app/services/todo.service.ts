@@ -1,6 +1,5 @@
 import * as Boom from "@hapi/boom";
 import { Types } from "mongoose";
-
 import { ICategory } from "../interfaces/category.interface";
 import { IDatabase } from "../interfaces/common.interface";
 import { ITodo, ITodoService } from "../interfaces/todo.interface";
@@ -36,12 +35,8 @@ export class TodoService implements ITodoService {
           .findById(categoryId)
           .populate({
             path: "todos",
-            match: filterQuery
-          })
-          .select({
-            todos: {
-              $slice: [query.offset, query.limit]
-            }
+            match: filterQuery,
+            options: { skip: query.offset, limit: query.limit }
           })
           .exec(),
         this.db.todosModel
@@ -109,16 +104,19 @@ export class TodoService implements ITodoService {
 
   public updatePositionTodosByCategory = async (
     categoryId,
-    todos
+    { list, oldIndex, newIndex }
   ): Promise<Types.ObjectId[]> => {
     const categoryById = await this.db.categoriesModel
       .findById(categoryId)
       .exec();
-    const convertedIdsToObjectId = todos.map(Types.ObjectId);
-    categoryById.todos = convertedIdsToObjectId.concat(
-      categoryById.todos.filter((_, i) => i > todos.length - 1)
-    );
 
+    const oldIdx = categoryById.todos.indexOf(list[oldIndex]);
+    const newIdx = categoryById.todos.indexOf(list[newIndex]);
+
+    const newList = [...categoryById.todos];
+    [newList[oldIdx], newList[newIdx]] = [newList[newIdx], newList[oldIdx]];
+
+    categoryById.todos = newList;
     const { todos: updatedTodosIds } = await categoryById.save();
     return updatedTodosIds;
   };

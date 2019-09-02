@@ -8,6 +8,11 @@ const todosListIds = Joi.array()
   .items(Joi.string())
   .label("Todos ids list");
 
+const updateListPositionSchema = Joi.object({
+  list: todosListIds,
+  oldIndex: Joi.number(),
+  newIndex: Joi.number()
+});
 const todoSchema = Joi.object({
   id: Joi.string(),
   categoryId: Joi.string(),
@@ -92,5 +97,6 @@ export {
   listCategoriesSchema,
   uploadedFileSchema,
   removedFileSchema,
-  updatedUserProfileSchema
+  updatedUserProfileSchema,
+  updateListPositionSchema
 };

@@ -61,6 +61,6 @@ export interface ITodoService {
   deleteTodoById: (id: string) => Promise<ITodo>;
   updatePositionTodosByCategory: (
     categoryId: string,
-    todos: string[]
+    payload: object
   ) => Promise<mongoose.Types.ObjectId[]>;
 }
