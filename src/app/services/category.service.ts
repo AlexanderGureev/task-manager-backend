@@ -1,11 +1,19 @@
 import * as Boom from "@hapi/boom";
 import { Types } from "mongoose";
-import { ICategory, ICategoryService } from "../interfaces/category.interface";
+import {
+  CategoryEvents,
+  ICategory,
+  ICategoryService
+} from "../interfaces/category.interface";
 import { IDatabase } from "../interfaces/common.interface";
+import { IEventBus } from "../interfaces/eventBus.interface";
 import { getCategoryColor } from "../libs/colors";
 
 export class CategoryService implements ICategoryService {
-  constructor(private db: IDatabase) {}
+  constructor(
+    private readonly db: IDatabase,
+    private readonly eventBus: IEventBus
+  ) {}
 
   public async createCategory(
     { userId },
@@ -15,18 +23,15 @@ export class CategoryService implements ICategoryService {
       ...category,
       color: getCategoryColor()
     });
-    const user = await this.db.usersModel.findById(userId).exec();
+    newCategory.author = Types.ObjectId(userId);
+    const savedCategory = await newCategory.save();
 
-    newCategory.author = Types.ObjectId(user._id);
-    user.categories.push(Types.ObjectId(newCategory._id));
-
-    const [savedCategory] = await Promise.all([
-      newCategory.save(),
-      user.save()
-    ]);
+    this.eventBus.publish(CategoryEvents.CREATE_CATEGORY_EVENT, {
+      userId,
+      category: savedCategory
+    });
     return savedCategory;
   }
-
   public async getCategories({ userId }): Promise<ICategory[]> {
     const categories = await this.db.categoriesModel
       .find({ author: userId }, "-todos")
@@ -51,20 +56,16 @@ export class CategoryService implements ICategoryService {
   public async deleteCategoryById(id): Promise<ICategory> {
     const deletedCategory = await this.db.categoriesModel
       .findByIdAndDelete(id)
+      .populate("todos")
       .exec();
 
-    const user = await this.db.usersModel
-      .findById(deletedCategory.author)
-      .exec();
-    user.categories = user.categories.filter(
-      categoryId => id !== categoryId.toString()
-    );
+    await this.db.todosModel.deleteMany({ categoryId: id }).exec();
 
-    const [deletedTodosByCategory, savedUser] = await Promise.all([
-      this.db.todosModel.deleteMany({ categoryId: id }).exec(),
-      user.save()
-    ]);
-
+    this.eventBus.publish(CategoryEvents.DELETE_CATEGORY_EVENT, {
+      userId: deletedCategory.author,
+      categoryId: deletedCategory._id,
+      todos: deletedCategory.todos
+    });
     return deletedCategory;
   }
 }

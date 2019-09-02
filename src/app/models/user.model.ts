@@ -30,6 +30,20 @@ const userSchema = new mongoose.Schema(
     avatarPath: {
       type: String,
       default: "/upload/ava_default.png"
+    },
+    statistics: {
+      count: {
+        type: Number,
+        default: 0
+      },
+      completed: {
+        type: Number,
+        default: 0
+      },
+      primary: {
+        type: Number,
+        default: 0
+      }
     }
   },
   {

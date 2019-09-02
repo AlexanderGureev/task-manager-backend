@@ -33,6 +33,20 @@ export interface IResponseTodos {
   todos: ITodo[];
 }
 
+export enum TodoEvents {
+  CREATE_TODO_EVENT = "ADD_TODO_EVENT",
+  DELETE_TODO_EVENT = "DELETE_TODO_EVENT",
+  UPDATE_TODO_EVENT = "UPDATE_TODO_EVENT"
+}
+
+export interface ITodoEventPayload {
+  userId: string;
+  todo: ITodo;
+}
+export interface IAddTodoEventPayload extends ITodoEventPayload {}
+export interface IUpdateTodoEventPayload extends ITodoEventPayload {}
+export interface IDeleteTodoEventPayload extends ITodoEventPayload {}
+
 export interface ITodoController {
   addTodo: (req: Request, h: ResponseToolkit) => Promise<ResponseObject>;
   getTodosByCategory: (
@@ -50,15 +64,19 @@ export interface ITodoController {
 }
 
 export interface ITodoService {
-  addTodo: (todo: ITodo) => Promise<ITodo>;
+  addTodo: (userId: string, todo: ITodo) => Promise<ITodo>;
   getTodosByCategory: (
     categoryId: string,
     query: RequestQuery
   ) => Promise<ICategory>;
   getTodos: (query: RequestQuery, credentials: object) => Promise<ICategory[]>;
   getTodoById: (id: string) => Promise<ITodo>;
-  updateTodoById: (id: string, todo: ITodo) => Promise<ITodo>;
-  deleteTodoById: (id: string) => Promise<ITodo>;
+  updateTodoById: (
+    userId: string,
+    todoId: string,
+    todo: ITodo
+  ) => Promise<ITodo>;
+  deleteTodoById: (userId: string, todoId: string) => Promise<ITodo>;
   updatePositionTodosByCategory: (
     categoryId: string,
     payload: object

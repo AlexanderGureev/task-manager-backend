@@ -1,25 +1,74 @@
 import * as Boom from "@hapi/boom";
 import { Types } from "mongoose";
-import { ICategory } from "../interfaces/category.interface";
+import {
+  CategoryEvents,
+  ICategory,
+  IDeleteCategoryEventPayload
+} from "../interfaces/category.interface";
 import { IDatabase } from "../interfaces/common.interface";
-import { ITodo, ITodoService } from "../interfaces/todo.interface";
+import { IEventBus } from "../interfaces/eventBus.interface";
+import { ITodo, ITodoService, TodoEvents } from "../interfaces/todo.interface";
 
 export class TodoService implements ITodoService {
-  constructor(private db: IDatabase) {}
+  constructor(
+    private readonly db: IDatabase,
+    private readonly eventBus: IEventBus
+  ) {
+    this.eventBus.subscribe(
+      CategoryEvents.DELETE_CATEGORY_EVENT,
+      this.deleteCategoryEventHandler.bind(this)
+    );
+  }
 
-  public addTodo = async (todo: ITodo) => {
+  public addTodo = async (userId: string, todo: ITodo) => {
     const { categoryId } = todo;
     const category = await this.db.categoriesModel.findById(categoryId).exec();
-
     if (!category) {
       throw Boom.notFound("Category for this ID do not exist.");
     }
+
     const newTodo = new this.db.todosModel(todo);
     category.todos.push(Types.ObjectId(newTodo._id));
+
     const [createdTodo] = await Promise.all([newTodo.save(), category.save()]);
+
+    this.eventBus.publish(TodoEvents.CREATE_TODO_EVENT, {
+      userId,
+      todo: createdTodo
+    });
     return createdTodo;
   };
 
+  public updateTodoById = async (
+    userId: string,
+    id: string,
+    todo: ITodo
+  ): Promise<ITodo> => {
+    const updatedTodo: ITodo = await this.db.todosModel
+      .findByIdAndUpdate(id, { ...todo }, { new: true })
+      .exec();
+
+    this.eventBus.publish(TodoEvents.UPDATE_TODO_EVENT, {
+      userId,
+      todo: updatedTodo
+    });
+    return updatedTodo;
+  };
+
+  public deleteTodoById = async (
+    userId: string,
+    id: string
+  ): Promise<ITodo> => {
+    const deletedTodo: ITodo = await this.db.todosModel
+      .findByIdAndDelete(id)
+      .exec();
+
+    this.eventBus.publish(TodoEvents.DELETE_TODO_EVENT, {
+      userId,
+      todo: deletedTodo
+    });
+    return deletedTodo;
+  };
   public getTodosByCategory = async (categoryId, query): Promise<ICategory> => {
     const filterOptions = ["primary", "status"];
     const filterQuery = Object.keys(query)
@@ -89,18 +138,6 @@ export class TodoService implements ITodoService {
     }
     return todoById;
   };
-  public updateTodoById = async (id: string, todo: ITodo): Promise<ITodo> => {
-    const updatedTodo: ITodo = await this.db.todosModel
-      .findByIdAndUpdate(id, { ...todo }, { new: true })
-      .exec();
-    return updatedTodo;
-  };
-  public deleteTodoById = async (id: string): Promise<ITodo> => {
-    const deletedTodo: ITodo = await this.db.todosModel
-      .findByIdAndDelete(id)
-      .exec();
-    return deletedTodo;
-  };
 
   public updatePositionTodosByCategory = async (
     categoryId,
@@ -120,4 +157,15 @@ export class TodoService implements ITodoService {
     const { todos: updatedTodosIds } = await categoryById.save();
     return updatedTodosIds;
   };
+
+  private async deleteCategoryEventHandler({
+    userId,
+    categoryId
+  }: IDeleteCategoryEventPayload) {
+    try {
+      await this.db.todosModel.deleteMany({ categoryId }).exec();
+    } catch (error) {
+      console.log(error);
+    }
+  }
 }

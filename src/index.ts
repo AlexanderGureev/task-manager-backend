@@ -1,4 +1,5 @@
 import * as dotenv from "dotenv";
+import { Types } from "mongoose";
 dotenv.config();
 
 import { CategoryController } from "./app/controllers/category.controller";
@@ -24,6 +25,8 @@ import { database } from "./app/services/database";
 import { config } from "./config";
 import { initServer } from "./server";
 
+import { EventBus } from "./app/services/eventBus.service";
+
 const exceptionHandle = () => {
   process.on("uncaughtException", (error: Error) => {
     console.error(`uncaughtException ${error.message}`);
@@ -36,23 +39,52 @@ const exceptionHandle = () => {
   });
 };
 
+const createTestTasks = async db => {
+  try {
+    const user = await db.usersModel
+      .findOne({ email: "g.alex00@bk.ru" })
+      .exec();
+    const category = await db.categoriesModel
+      .findOne({ author: user._id })
+      .exec();
+    category.todos = [];
+
+    for (let i = 0; i < 10000; i++) {
+      const todo = new db.todosModel({
+        text: `todo-${i}`,
+        categoryId: category._id
+      });
+      category.todos.push(Types.ObjectId(todo._id));
+      await todo.save();
+    }
+    const {
+      todos: { length }
+    } = await category.save();
+    console.log(length);
+  } catch (error) {
+    console.log(error);
+  }
+};
 const initApp = async () => {
   try {
     const db = database();
+
     const server = await initServer(config, db);
+    // await createTestTasks(db);
 
     const authService = new AuthService(config);
     const tokenService = new TokenService(config);
+    const eventBus = new EventBus();
 
-    const todoService = new TodoService(db);
-    const todoController = new TodoController(todoService);
-    const todoRouter = new TodoRouter(todoController);
-
-    const userService = new UserService(db);
+    const userService = new UserService(db, eventBus);
     const userController = new UserController(userService, authService);
     const userRouter = new UserRouter(userController);
 
-    const categoryService = new CategoryService(db);
+    const todoService = new TodoService(db, eventBus);
+    const todoController = new TodoController(todoService);
+    const todoRouter = new TodoRouter(todoController);
+
+    const categoryService = new CategoryService(db, eventBus);
     const categoryController = new CategoryController(categoryService);
     const categoryRouter = new CategoryRouter(categoryController);
 

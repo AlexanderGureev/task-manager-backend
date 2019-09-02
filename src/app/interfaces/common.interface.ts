@@ -1,4 +1,4 @@
-import { RouteOptions, Server } from "@hapi/hapi";
+import { RequestAuth, RouteOptions, Server } from "@hapi/hapi";
 
 import * as mongoose from "mongoose";
 import { ICategoryModel } from "./category.interface";
@@ -36,6 +36,7 @@ interface IOAuthData {
   CLIENT_SECRET: string;
   REDIRECT_URI: string;
 }
+
 export interface IConfig {
   PORT: string;
   HOST: string;

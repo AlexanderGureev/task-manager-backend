@@ -18,6 +18,11 @@ export interface IUserModel extends mongoose.Document {
   comparePassword: any;
   categories: mongoose.Types.ObjectId[];
   avatarPath: string;
+  statistics: {
+    count: number;
+    completed: number;
+    primary: number;
+  };
 }
 
 export interface IUser {
@@ -28,6 +33,11 @@ export interface IUser {
   email: string;
   categories: mongoose.Types.ObjectId[];
   avatarPath: string;
+  statistics: {
+    count: number;
+    completed: number;
+    primary: number;
+  };
 }
 export interface IUserController {
   register: (req: Request, h: ResponseToolkit) => Promise<ResponseObject>;
@@ -42,4 +52,5 @@ export interface IUserService {
   login: (object: object) => Promise<IUser>;
   getUserProfile: (userId: string) => Promise<IUser>;
   updateUserById: (userId: string, body: IUser) => Promise<IUser>;
+  // updateStatistics: (userId: string, statistics: object) => Promise<IUser>;
 }
