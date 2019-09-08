@@ -37,7 +37,8 @@ export const swagger = {
       info: {
         title: "API Documentation",
         version: config.API_VERSION
-      }
+      },
+      cors: true
     };
 
     await server.register([

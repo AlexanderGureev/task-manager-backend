@@ -8,7 +8,7 @@ export const cors = {
     await server.register({
       plugin: require("hapi-cors"),
       options: {
-        origins: [config.CLIENT_URL, "https://api-hapi-todo.herokuapp.com"],
+        origins: [config.CLIENT_URL],
         allowCredentials: "true",
         methods: ["POST, GET, PATCH, PUT, OPTIONS, DELETE"]
       }
