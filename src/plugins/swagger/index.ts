@@ -38,7 +38,9 @@ export const swagger = {
         title: "API Documentation",
         version: config.API_VERSION
       },
-      cors: true
+      cors: true,
+      schemes: ["https"],
+      host: "api-hapi-todo.herokuapp.com"
     };
 
     await server.register([
