@@ -54,6 +54,7 @@ export interface IConfig {
     VK: IOAuthData;
     FACEBOOK: IOAuthData;
   };
+  CLIENT_URL: string;
 }
 
 export interface IMongoConnection {

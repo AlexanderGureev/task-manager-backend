@@ -5,11 +5,11 @@ import { IConfig } from "../../app/interfaces/common.interface";
 export const logger = {
   name: "logger",
   version: "1.0.0",
-  register: async (server: Hapi.Server, options: IConfig) => {
+  register: async (server: Hapi.Server, config: IConfig) => {
     server.register({
       plugin: pino,
       options: {
-        prettyPrint: options.ENV === "development" ? true : false,
+        prettyPrint: config.ENV === "development" ? true : false,
         logEvents: ["response", "onPostStart"],
         level: "debug"
       }

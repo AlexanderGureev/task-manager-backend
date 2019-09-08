@@ -4,11 +4,11 @@ import { IConfig } from "../../app/interfaces/common.interface";
 export const cors = {
   name: "cors",
   version: "1.0.0",
-  register: async (server: Hapi.Server, options?: IConfig) => {
+  register: async (server: Hapi.Server, config: IConfig) => {
     await server.register({
       plugin: require("hapi-cors"),
       options: {
-        origins: ["*"],
+        origins: [config.CLIENT_URL],
         allowCredentials: "true",
         methods: ["POST, GET, PATCH, PUT, OPTIONS, DELETE"]
       }

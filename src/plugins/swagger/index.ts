@@ -7,7 +7,7 @@ import { IConfig } from "../../app/interfaces/common.interface";
 export const swagger = {
   name: "swagger",
   version: "1.0.0",
-  register: async (server: Hapi.Server, options?: IConfig) => {
+  register: async (server: Hapi.Server, config: IConfig) => {
     const swaggerOptions = {
       documentationPath: "/",
       grouping: "tags",
@@ -36,7 +36,7 @@ export const swagger = {
       ],
       info: {
         title: "API Documentation",
-        version: options.API_VERSION
+        version: config.API_VERSION
       }
     };
 

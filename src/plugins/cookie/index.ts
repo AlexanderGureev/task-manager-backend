@@ -1,10 +1,10 @@
 import * as Hapi from "@hapi/hapi";
-import { config } from "../../config";
+import { IConfig } from "../../app/interfaces/common.interface";
 
 export const cookie = {
   name: "cookie",
   version: "1.0.0",
-  register: async (server: Hapi.Server, options?: object) =>
+  register: async (server: Hapi.Server, config: IConfig) =>
     server.state("token", {
       ttl: 365 * 24 * 60 * 60 * 1000,
       isSecure: false,

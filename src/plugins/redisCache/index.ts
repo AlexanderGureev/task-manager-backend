@@ -10,7 +10,7 @@ const client = redis.createClient(config.REDIS_URI);
 export const redisCache = {
   name: "redisCache",
   version: "1.0.0",
-  register: async (server: Server, options: IConfig) => {
+  register: async (server: Server, config: IConfig) => {
     server.ext("onPreAuth", (req: any, h: ResponseToolkit) => {
       req.redis = client;
       return h.continue;

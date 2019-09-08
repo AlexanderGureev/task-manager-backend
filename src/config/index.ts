@@ -10,7 +10,7 @@ const mongodbConfig: IMongoConnection = {
 export const config: IConfig = {
   PORT: process.env.PORT || "8080",
   HOST: process.env.HOST || "0.0.0.0",
-  ENV: process.env.ENV || "development",
+  ENV: process.env.NODE_ENV || "development",
   SESSION_PREFIX: "session",
   JWT_SECRET: "test",
   API_VERSION: "1.0.0",
@@ -37,5 +37,9 @@ export const config: IConfig = {
       CLIENT_SECRET: process.env.FACEBOOK_CLIENT_SECRET,
       REDIRECT_URI: process.env.FACEBOOK_REDIRECT_URI
     }
-  }
+  },
+  CLIENT_URL:
+    process.env.NODE_ENV === "production"
+      ? "https://simpletds.herokuapp.com"
+      : "http://localhost:8081"
 };
