@@ -38,7 +38,6 @@ export class TodoService implements ITodoService {
     });
     return createdTodo;
   };
-
   public updateTodoById = async (
     userId: string,
     id: string,
@@ -54,7 +53,6 @@ export class TodoService implements ITodoService {
     });
     return updatedTodo;
   };
-
   public deleteTodoById = async (
     userId: string,
     id: string
@@ -112,7 +110,6 @@ export class TodoService implements ITodoService {
     }
     return todos;
   };
-
   public getTodos = async (query, { userId }): Promise<ICategory[]> => {
     const filterOptions = ["primary", "status"];
     const filterQuery = Object.keys(query)
@@ -130,7 +127,6 @@ export class TodoService implements ITodoService {
 
     return todos;
   };
-
   public getTodoById = async (id: string): Promise<ITodo> => {
     const todoById: ITodo = await this.db.todosModel.findById(id).exec();
     if (!todoById) {
@@ -138,7 +134,6 @@ export class TodoService implements ITodoService {
     }
     return todoById;
   };
-
   public updatePositionTodosByCategory = async (
     categoryId,
     { list, oldIndex, newIndex }
@@ -157,7 +152,6 @@ export class TodoService implements ITodoService {
     const { todos: updatedTodosIds } = await categoryById.save();
     return updatedTodosIds;
   };
-
   private async deleteCategoryEventHandler({
     userId,
     categoryId

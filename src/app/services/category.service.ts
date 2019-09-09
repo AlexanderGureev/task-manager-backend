@@ -7,13 +7,22 @@ import {
 } from "../interfaces/category.interface";
 import { IDatabase } from "../interfaces/common.interface";
 import { IEventBus } from "../interfaces/eventBus.interface";
+import {
+  IDeleteTodoEventPayload,
+  TodoEvents
+} from "../interfaces/todo.interface";
 import { getCategoryColor } from "../libs/colors";
 
 export class CategoryService implements ICategoryService {
   constructor(
     private readonly db: IDatabase,
     private readonly eventBus: IEventBus
-  ) {}
+  ) {
+    this.eventBus.subscribe(
+      TodoEvents.DELETE_TODO_EVENT,
+      this.deleteTodoEventHandler.bind(this)
+    );
+  }
 
   public async createCategory(
     { userId },
@@ -67,5 +76,19 @@ export class CategoryService implements ICategoryService {
       todos: deletedCategory.todos
     });
     return deletedCategory;
+  }
+  private async deleteTodoEventHandler({
+    userId,
+    todo
+  }: IDeleteTodoEventPayload) {
+    try {
+      const category = await this.db.categoriesModel.findById(todo.categoryId);
+      category.todos = category.todos.filter(
+        id => id.toString() !== todo._id.toString()
+      );
+      await category.save();
+    } catch (error) {
+      console.log(error);
+    }
   }
 }
