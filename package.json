@@ -8,7 +8,7 @@
     "start:build": "node ./dist/index.js",
     "lint": "tslint --fix -c tslint.json 'src/**/*.ts'",
     "start:watch": "nodemon",
-    "build": "npx -p typescript tsc",
+    "build": "npx -p typescript tsc && npx copyfiles -f ./src/upload/*.jpg ./src/upload/*.png ./dist/upload",
     "heroku-postbuild": "yarn build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
