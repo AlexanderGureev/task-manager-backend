@@ -4,5 +4,6 @@ node_modules
 .DS_Store
 db.txt
 dist
-src/upload
+upload
+!ava_default.png
 .env
