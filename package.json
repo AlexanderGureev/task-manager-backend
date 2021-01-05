@@ -22,7 +22,7 @@
     "@hapi/joi": "^15.1.0",
     "@hapi/vision": "^5.5.2",
     "array-move": "^2.1.0",
-    "axios": "^0.19.0",
+    "axios": "^0.21.1",
     "bcrypt": "^3.0.6",
     "bluebird": "^3.5.5",
     "dotenv": "^8.0.0",
